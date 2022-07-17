@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.demoregister">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DemoRegister"
+        tools:targetApi="31">
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.OrderDetailsStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Drink.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="false" /> <!-- Login -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" /> <!-- Admin Activity -->
+        <activity
+            android:name=".admin.RegisterStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.ProfileEditStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.CreateMenu"
+            android:exported="false" />
+        <activity
+            android:name=".admin.MainStaffActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.EditMenuActivity"
+            android:exported="false" /> <!-- user activity -->
+        <activity
+            android:name=".Drink.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.MainCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".customer.ShopDetailsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"> <!-- hidden keyboard by default -->
+        </activity>
+        <activity
+            android:name=".customer.CartPageActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden"> <!-- hidden keyboard by default -->
+        </activity>
+        <activity
+            android:name=".customer.ProfileEditCustomerActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".customer.OrderDetailsCustomerActivity"
+            android:exported="false" />
+
+        <!--register service to allow to run in background-->
+        <service
+            android:name=".MyFirebaseMessaging"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

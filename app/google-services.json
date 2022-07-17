@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "458240109806",
+    "firebase_url": "https://demoregister-ad479-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "demoregister-ad479",
+    "storage_bucket": "demoregister-ad479.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458240109806:android:3d112f5693cabe6dee57ff",
+        "android_client_info": {
+          "package_name": "com.example.demoregister"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458240109806-inkad05ma4jt374gfu634047133l1fg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIq4qyERADbeqJjuFGsiKGvKAiOjqqKOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458240109806-inkad05ma4jt374gfu634047133l1fg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
