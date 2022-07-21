@@ -194,19 +194,20 @@ public class MainStaffActivity extends AppCompatActivity {
 
                         ModelOrderStaff modelOrderStaff = ds.getValue(ModelOrderStaff.class);
 
-                        /*
-                        int countStatus=0;
-                        for(ModelOrderStaff os: orderList){
-                            if(os.getOrderStatus().equalsIgnoreCase("In Progress")){
-                            countStatus += Integer.parseInt(os.getOrderStatus());
-                                //set items count
-                                tabInKitchenTv.setText("In Kitchen[ "+countStatus+" ]");
-                            }
-                        }
+                        //nak kira jumlah brpa bnyak recycler view
+                        int countStatus =0;
 
-                         */
                         //add to list
                         orderList.add(modelOrderStaff);
+                        if(orderList.size() != 0){
+                            countStatus += orderList.size();
+                            tabInKitchenTv.setText("In Kitchen [ "+countStatus+" ]");
+                        }
+                        else{
+                            //kalau tadak order yang berstatus In Progress display biasa je
+                            tabInKitchenTv.setText("In Kitchen [ 0 ]");
+                        }
+
                     }
                 }
                 //setup adapter
@@ -244,19 +245,21 @@ public class MainStaffActivity extends AppCompatActivity {
 
                         ModelOrderToCook modelOrderToCook = ds.getValue(ModelOrderToCook.class);
 
-                        /*
-                        int countStatus=0;
-                        for(ModelOrderStaff os: orderList){
-                            if(os.getOrderStatus().equalsIgnoreCase("In Progress")){
-                            countStatus += Integer.parseInt(os.getOrderStatus());
-                                //set items count
-                                tabInKitchenTv.setText("In Kitchen[ "+countStatus+" ]");
-                            }
-                        }
+                        //nak kira jumlah brpa bnyak recycler view
+                        int countStatus =0;
 
-                         */
                         //add to list
                         orderCookList.add(modelOrderToCook);
+                        //nak kira jumlah brpa bnyak recycler view
+                        if(orderList.size() != 0){
+                            countStatus += orderCookList.size();
+                            tabTooCookTv.setText("To Cook [ "+countStatus+" ]");
+                        }
+                        else{
+                            //kalau tadak order yang berstatus In Progress display biasa je
+                            tabTooCookTv.setText("To Cook [ "+countStatus+" ]");
+                        }
+
                     }
                 }
                 //setup adapter

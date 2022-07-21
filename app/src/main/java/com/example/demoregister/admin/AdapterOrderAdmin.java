@@ -105,6 +105,17 @@ public class AdapterOrderAdmin extends RecyclerView.Adapter<AdapterOrderAdmin.Ho
                 context.startActivity(intent); // now get these values through OrdersDetailsActivity
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open order details, we need to keys there, orderID
+                Intent intent = new Intent(context, OrderDetailsAdminActivity.class);
+                intent.putExtra("orderId",orderId); //to load order info
+                intent.putExtra("orderBy",orderBy); //to load info cust who placed the order
+                context.startActivity(intent); // now get these values through OrdersDetailsActivity
+            }
+        });
     }
 
     private void loadCustomerInfo(ModelOrderStaff modelOrderStaff, HolderOrderShop holder) {

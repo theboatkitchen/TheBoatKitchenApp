@@ -100,6 +100,18 @@ public class AdapterOrderToCook extends RecyclerView.Adapter<AdapterOrderToCook.
                 context.startActivity(intent); // now get these values through OrdersDetailsActivity
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open order details, we need to keys there, orderID
+                Intent intent = new Intent(context, OrderDetailsTooCook.class);
+                intent.putExtra("orderId",orderId); //to load order info
+                intent.putExtra("orderBy",orderBy); //to load info cust who placed the order
+                context.startActivity(intent); // now get these values through OrdersDetailsActivity
+            }
+        });
+
     }
 
     private void loadCustomerInfo(ModelOrderToCook modelOrderToCook, HolderOrderShop holder) {

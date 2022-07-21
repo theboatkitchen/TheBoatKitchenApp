@@ -196,7 +196,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         tabOrdersTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 
-    private void showOrdersUI() {
+    public void showOrdersUI() {
         //show order UI and hide products UI
         ordersRL.setVisibility(View.VISIBLE);
         productsRL.setVisibility(View.INVISIBLE);

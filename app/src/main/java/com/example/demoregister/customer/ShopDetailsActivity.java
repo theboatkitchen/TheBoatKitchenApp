@@ -227,10 +227,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
         //get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Menu");
 
-        String available = reference.get().toString();
-
-        CreateMenuModel grab = new CreateMenuModel();
-
         reference.orderByChild("menuID")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -247,19 +243,13 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             if(createMenuModel.getAvailability().equals("Available")){
                                 productList.add(createMenuModel);
                             }
-                            else{
-
-                            }
 
                         }
                         //setup adapter untuk view menu list
                         adapterMenuCustomer = new AdapterMenuCustomer(ShopDetailsActivity.this, productList);
                         //set adapter value menu list
                         productsRV.setAdapter(adapterMenuCustomer);
-
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(ShopDetailsActivity.this,""+ error.getMessage(),Toast.LENGTH_SHORT).show();
@@ -333,14 +323,12 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             String phone = ""+ds.child("custPhone").getValue();
                             String accountType = ""+ds.child("accountType").getValue();
 
-
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(ShopDetailsActivity.this,""+ error.getMessage(),Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }

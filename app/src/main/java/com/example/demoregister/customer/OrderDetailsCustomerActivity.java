@@ -48,6 +48,8 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
 
     String orderStatus;
 
+    MainCustomerActivity mainCustomerActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +84,11 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                startActivity(new Intent(OrderDetailsCustomerActivity.this, MainCustomerActivity.class));
             }
         });
-        //cancelOrder
 
+        //cancelOrder
         cancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,8 +101,8 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
     private void cancelOrderComfirmation() {
         android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete")
-                .setMessage("Are you sure you want to delete this order?")
-                .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+                .setMessage("Are you sure you want to cancel this order?")
+                .setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //delete
@@ -129,7 +131,7 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         //order deleted
                         //open customer main page
-                        startActivity(new Intent(OrderDetailsCustomerActivity.this, MainCustomerActivity.class));
+                        startActivity(new Intent(OrderDetailsCustomerActivity.this, ShopDetailsActivity.class));
                         //Toast.makeText(OrderDetailsCustomerActivity.this, "Order deleted.....", Toast.LENGTH_SHORT).show();
                     }
                 })

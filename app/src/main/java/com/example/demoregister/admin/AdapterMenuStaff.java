@@ -200,7 +200,6 @@ public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.Hold
     private void deleteMenu(String id) {
         //delete product using its id
 
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Menu");
         reference.child(id).removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

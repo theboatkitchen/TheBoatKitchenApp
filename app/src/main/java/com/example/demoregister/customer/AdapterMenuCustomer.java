@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +80,7 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
 
         //get data
         CreateMenuModel modelMenu = createMenuModelList.get(position);
-        String id = modelMenu.getMenuID();
+        String menuId = modelMenu.getMenuID();
         String name = modelMenu.getMenuName();
         String description = modelMenu.getDescription();
         String category = modelMenu.getCategory();
@@ -112,7 +113,7 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
             @Override
             public void onClick(View view) {
                 //add menu to cart
-                showQuantityDialog(modelMenu);
+                addToCart(modelMenu);
 
             }
         });
@@ -122,7 +123,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
                 //show menu details
             }
         });
-
 
     }
 
@@ -137,10 +137,10 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
 
     String getcartid;
 
-    private void showQuantityDialog(CreateMenuModel modelMenu) {
 
+
+    private void addToCart(CreateMenuModel modelMenu) {
         final String price;
-
         //get data from model
         //dapatkan menu id
         menuid = modelMenu.getMenuID();
@@ -161,8 +161,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
         //every time data stored the cartid will be unique
         cartid = userCart.push().getKey();
         getcartid = modelMenu.getMenuID();
-
-        //DatabaseReference userCart = FirebaseDatabase.getInstance().getReference("Cart_Food");
 
         userCart.child(custid).child(getcartid)//daripada Cart_Food bawah custid=mauth.getUid();,bawah menu id
                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -188,7 +186,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
                                                 @Override
                                                 public void onSuccess(Void unused) {
                                                     Toast.makeText(context.getApplicationContext(),"cart updated...", Toast.LENGTH_SHORT).show();
-
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -253,6 +250,7 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
         //ui views
         private ImageView productIconIv;
         private TextView nameIv,descriptionIv,priceIv,addToCartTv;
+        private RelativeLayout menuRV;
 
         public HolderMenu(@NonNull View itemView) {
 
@@ -265,6 +263,7 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
             nameIv = itemView.findViewById(R.id.name);
             descriptionIv = itemView.findViewById(R.id.description);
             priceIv = itemView.findViewById(R.id.price);
+            menuRV = itemView.findViewById(R.id.menuRV);
 
 
             addToCartTv = itemView.findViewById(R.id.addToCartTv);

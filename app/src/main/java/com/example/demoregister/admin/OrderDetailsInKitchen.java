@@ -126,6 +126,7 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
 
                         prepareNotificationMessage(orderId, message);
 
+                        startActivity(new Intent(OrderDetailsInKitchen.this,MainStaffActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

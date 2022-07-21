@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -89,8 +90,12 @@ public class CartPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //go previous activity
                 //onBackPressed();
-                startActivity(new Intent(CartPageActivity.this, ShopDetailsActivity.class));
+                //startActivity(new Intent(CartPageActivity.this, ShopDetailsActivity.class));
 
+
+                MainCustomerActivity main = new MainCustomerActivity();
+
+                main.showOrdersUI();
             }
         });
 
@@ -105,7 +110,6 @@ public class CartPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //open dialog EDit Text Table No
                 dialogTableNo();
-                //addConfirmCart();
             }
         });
 
@@ -135,6 +139,12 @@ public class CartPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //get data from layout
                 String tableNo = DialogtableNo.getText().toString();
+
+                //validate
+                if(TextUtils.isEmpty(tableNo)) {
+                    Toast.makeText(getApplicationContext(), "Please Enter Table No", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 addConfirmCart(tableNo);
                 dialog.dismiss();
@@ -226,6 +236,7 @@ public class CartPageActivity extends AppCompatActivity {
     public void loadAllCart() {
         //init list
         cartItemList = new ArrayList<>();
+        cartItemList.clear();
 
         //inflate cart layout
         //View view = LayoutInflater.from(this).inflate(R.layout.test_dialog_cart, null);
@@ -260,16 +271,14 @@ public class CartPageActivity extends AppCompatActivity {
 
                         }
                         else{
+                            cartItemList.clear();
+                            adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
+                            cartItemsRv.setAdapter(adapterCartItem);
+                            TotalPrice.setText(new StringBuilder("RM 0.00"));
                             Toast.makeText(CartPageActivity.this,"Cart Empty",Toast.LENGTH_SHORT).show();}
 
                         //setup adapter untuk view menu list
-                        adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
-                        //set to recyclerview
-                        //cartItemsRv.setAdapter(adapterCartItem);
-                        //subTotal.setText("RM" + String.format("%.2f",allTotalprice));
-                        //TotalPrice.setText("RM" + allTotalprice);
-                        //totalPriceTv.setText(new StringBuilder("RM").append(modelCartItem.getTotalprice()));
-
+                        //adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
                     }
 
                     @Override
@@ -285,10 +294,12 @@ public class CartPageActivity extends AppCompatActivity {
         RecyclerView cartItemsRv = findViewById(R.id.cartItemsRv);
         for(ModelCartItem cm: cartItemList){
 
+            //(Float.parseFloat(String.format("%.2f",modelCartItem.getQuantity()*(modelCartItem.getCost()))));
+            //updateTotal+= Float.parseFloat(String.format("%.2f",cm.getTotalprice()));
             updateTotal+=cm.getTotalprice();
         }
         TotalPrice.setText(new StringBuilder("RM ").append(updateTotal));
-        checkoutBtn.setText(new StringBuilder("Checkout (RM:").append(updateTotal)+")");
+        checkoutBtn.setText(new StringBuilder("Checkout (RM ").append(updateTotal)+")");
         adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
         cartItemsRv.setAdapter(adapterCartItem);
     }

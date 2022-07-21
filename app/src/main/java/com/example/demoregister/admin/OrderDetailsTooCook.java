@@ -135,6 +135,11 @@ public class OrderDetailsTooCook extends AppCompatActivity {
 
                         prepareNotificationMessage(orderId, message);
 
+                        Intent intent = new Intent(OrderDetailsTooCook.this, OrderDetailsInKitchen.class);
+                        intent.putExtra("orderId",orderId); //to load order info
+                        intent.putExtra("orderBy",orderBy); //to load info cust who placed the order
+                        startActivity(intent); // now get these values through OrdersDetailsActivity
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

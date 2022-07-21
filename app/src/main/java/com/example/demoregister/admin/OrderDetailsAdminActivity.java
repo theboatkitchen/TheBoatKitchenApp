@@ -103,7 +103,7 @@ public class OrderDetailsAdminActivity extends AppCompatActivity {
 
     private void editOrderStatusDialog() {
         //options to display in dialog
-        final String[] options = {"In Progress", "Completed", "Cancelled"};
+        final String[] options = {"Pending","In Progress", "Completed", "Cancelled"};
         //dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Order Status")
@@ -202,6 +202,9 @@ public class OrderDetailsAdminActivity extends AppCompatActivity {
 
 
                         //change order status
+                        if (orderStatus.equals("Pending")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.teal_700));
+                        }
                         if (orderStatus.equals("In Progress")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.blue));
                         }

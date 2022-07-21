@@ -92,6 +92,16 @@ public class AdapterOrderCustomer extends RecyclerView.Adapter<AdapterOrderCusto
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open order details, we need to keys there, orderID
+                Intent intent = new Intent(context, OrderDetailsCustomerActivity.class);
+                intent.putExtra("orderId",orderId);
+                context.startActivity(intent); // now get these values through OrdersDetailsActivity
+            }
+        });
+
     }
 
     @Override

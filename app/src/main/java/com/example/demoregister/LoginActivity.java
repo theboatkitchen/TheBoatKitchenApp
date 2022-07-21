@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        backBtn = findViewById(R.id.backBtn);
+        //backBtn = findViewById(R.id.backBtn);
         emailEt = findViewById(R.id.email);
         passwordEt = findViewById(R.id.password);
         forgotTv = findViewById(R.id.forgot_password);
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        backBtn.setOnClickListener((v) -> {onBackPressed();});
+        //backBtn.setOnClickListener((v) -> {onBackPressed();});
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

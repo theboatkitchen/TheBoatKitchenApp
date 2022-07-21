@@ -18,6 +18,7 @@ import com.example.demoregister.Drink.eventbus.MyUpdateCartEvent;
 import com.example.demoregister.R;
 import com.example.demoregister.adapter.MyCartAdapter;
 import com.example.demoregister.model.ModelCartItem;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -55,14 +56,11 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
         //return new HolderCartItem(viewCountPage);
     }
 
-    private double Updatecost = 0;
-    private double UpdatefinalCost = 0;
-    private int UpdateQuantity = 0;
+
     private float TotalP =0;
     private float cost =0;
     int quantity =0;
     String custid,cartid,menuId;
-    //private int quantity=0;
     @Override
     public void onBindViewHolder(@NonNull HolderCartItem holder, int position) {
         //get data
@@ -131,36 +129,6 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
 
          */
 
-         /*
-        //increase quantity of the product
-        incrementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finalCost = finalCost + cost;
-                quantity++;
-
-                finalTv.setText("RM" + finalCost);
-                quantityTv.setText(""+quantity);
-
-            }
-        });
-
-        //decrease quantity of the product only if quantity is >1
-        decrementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(quantity>1){
-                    finalCost = finalCost - cost;
-                    quantity --;
-
-                    finalTv.setText("RM" +finalCost);
-                    quantityTv.setText(""+quantity);
-                }
-
-            }
-        });
-
-        */
 
         holder.btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,17 +142,15 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                 modelCartItem.setQuantity(modelCartItem.getQuantity()+1);
                 //buat pengiraan sub total untuk each menu guna kaedah count++
                 //TotalP = TotalP + cost;// 0+15
-                modelCartItem.setTotalprice(modelCartItem.getQuantity()*(modelCartItem.getCost()));
+                //double sTotalPrice = Double.parseDouble(String.format("%.2f", totalPrice));
+                modelCartItem.setTotalprice(Float.parseFloat(String.format("%.2f",modelCartItem.getQuantity()*(modelCartItem.getCost()))));
+                //modelCartItem.setTotalprice(modelCartItem.getQuantity()*(modelCartItem.getCost()));
 
-                //finalTv.setText("RM" + finalCost);
-                //quantityTv.setText(""+quantity);
-
-                //setkan nilai untuk view
-                //holder.QuantityTv.setText(""+UpdateQuantity);
-                //holder.totalPriceTv.setText(""+TotalP);
 
                 //update quantity
                 holder.QuantityTv.setText(new StringBuilder().append(modelCartItem.getQuantity()));
+                // ((ShopDetailsActivity)context).sTotalTv.setText("RM"+String.format("%.2f", sTotalPrice));
+                //holder.totalPriceTv.setText("RM"+String.format("%.2f", modelCartItem.getTotalprice()));
                 holder.totalPriceTv.setText(new StringBuilder("RM").append(modelCartItem.getTotalprice()));
 
                 updateFirebase(modelCartItem);
@@ -197,23 +163,24 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
             public void onClick(View v) {
 
                 if(modelCartItem.getQuantity() >=1){
-                    //setiap kali tekan button plus value dari db akan bertmbah
+                    //setiap kali tekan minus value dari db akan tolak
                     modelCartItem.setQuantity(modelCartItem.getQuantity()-1);
                     //UpdateQuantity = quantity-1;
                     //buat pengiraan sub total untuk each menu guna kaedah count++
-                    modelCartItem.setTotalprice(modelCartItem.getQuantity()*(modelCartItem.getCost()));
+                    modelCartItem.setTotalprice(Float.parseFloat(String.format("%.2f",modelCartItem.getQuantity()*(modelCartItem.getCost()))));
+                    //modelCartItem.setTotalprice(modelCartItem.getQuantity()*(modelCartItem.getCost()));
                     //TotalP = TotalP - cost;// 30 - 15
 
-
-                    //finalTv.setText("RM" + finalCost);
-                    //quantityTv.setText(""+quantity);
-
-                    //setkan nilai untuk view
-                    //holder.QuantityTv.setText(""+UpdateQuantity);
                     holder.QuantityTv.setText(new StringBuilder().append(modelCartItem.getQuantity()));
+                    //holder.totalPriceTv.setText("RM"+String.format("%.2f", modelCartItem.getTotalprice()));
                     holder.totalPriceTv.setText(new StringBuilder("RM").append(modelCartItem.getTotalprice()));
-                    updateFirebase(modelCartItem);
-                    //holder.totalPriceTv.setText("RM"+TotalP);
+
+                    if(modelCartItem.getQuantity()<=0){
+                        deleteCart(modelCartItem.getMenuId());
+                    }
+                    else {
+                        updateFirebase(modelCartItem);
+                    }
 
                 }
 
@@ -229,19 +196,42 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                     .setPositiveButton("OK", (dialog12, which) -> {
 
                         //Temp remove
-                        AdapterCartItem.this.notifyItemRemoved(position);
+                        //AdapterCartItem.this.notifyItemRemoved(position);
+                        //AdapterCartItem.this.deleteFromFirebase(cartItems.get(position));
 
-                        AdapterCartItem.this.deleteFromFirebase(cartItems.get(position));
-                        dialog12.dismiss();
+                        //dialog12.dismiss();
 
                         //refresh list
-                        int actualPosition = holder.getAdapterPosition();
-                        cartItems.remove(actualPosition);
-                        notifyItemChanged(actualPosition);
-                        notifyDataSetChanged();
+                        //int actualPosition = holder.getAdapterPosition();
+                        //cartItems.remove(actualPosition);
+                       // notifyItemChanged(actualPosition);
+                        //notifyDataSetChanged();
+                        deleteCart(modelCartItem.getMenuId());
+
                     }).create();
             dialog.show();
         });
+    }
+
+    private void deleteCart(String menuId) {
+        //remove menu using its id
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Cart_Food");
+        reference.child(custid).child(menuId).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //menu deleted
+                        Toast.makeText(context, "Removed from cart....", Toast.LENGTH_SHORT).show();
+                        ((CartPageActivity)context).loadAllCart();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed deleting menu
+                        Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void updateFirebase(ModelCartItem modelCartItem) {
@@ -257,22 +247,6 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                         ((CartPageActivity)context).loadAllCart();
                     }
 
-                });
-
-
-    }
-
-    private void deleteFromFirebase(ModelCartItem modelCartItem) {
-
-        DatabaseReference userCart = FirebaseDatabase.getInstance().getReference("Cart_Food");
-
-        //userCart.child(custid).child(getcartid)
-        userCart.child(custid).child(menuId).removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(context.getApplicationContext(),"Remove from cart..",Toast.LENGTH_SHORT).show();
-                    }
                 });
 
 

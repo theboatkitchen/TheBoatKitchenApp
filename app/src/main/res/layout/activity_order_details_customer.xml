@@ -181,13 +181,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsRv"
         android:layout_width="match_parent"
-        android:layout_height="405dp"
+        android:layout_height="505dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_ordered_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="187dp">
+        android:layout_height="84dp">
 
         <Button
             android:id="@+id/cancelOrder"
@@ -199,12 +199,12 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintVertical_bias="0.555" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

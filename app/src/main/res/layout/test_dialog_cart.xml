@@ -40,21 +40,22 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartItemsRv"
         android:layout_width="match_parent"
-        android:layout_height="437dp"
+        android:layout_height="629dp"
         android:layout_below="@+id/panel"
         android:layout_marginTop="-1dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/test_cart" />
 
+
     <RelativeLayout
         android:id="@+id/pricesLayout"
         android:layout_width="match_parent"
-        android:layout_height="335dp"
-        android:layout_below="@+id/cartItemsRv"
+        android:layout_height="145dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="72dp"
-        android:padding="10dp">
+        android:layout_marginEnd="0dp"
+        android:padding="10dp"
+        android:background="#D3D3D3">
 
 
         <TextView
@@ -91,6 +92,8 @@
             android:text="Confirm Order" />
 
     </RelativeLayout>
+
+
 
 
 
