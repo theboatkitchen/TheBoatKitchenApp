@@ -117,6 +117,25 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/accountType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#CCCCCC"
+        android:drawableLeft="@drawable/ic_baseline_person_outline_white"
+        android:drawableRight="@drawable/ic_drop_down_24"
+        android:inputType="textCapWords"
+        android:focusableInTouchMode="false"
+        android:drawablePadding="13dp"
+        android:hint="Account Type"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BKgender"
+        app:layout_constraintWidth_percent=".8" />
+
+    <EditText
         android:id="@+id/BKage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -131,7 +150,7 @@
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BKgender"
+        app:layout_constraintTop_toBottomOf="@+id/accountType"
         app:layout_constraintWidth_percent=".8" />
 
     <EditText

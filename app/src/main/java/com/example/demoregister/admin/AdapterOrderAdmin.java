@@ -15,9 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.demoregister.FilterOrderStaff;
+import com.example.demoregister.FilterOrderAdmin;
 import com.example.demoregister.R;
-import com.example.demoregister.customer.OrderDetailsCustomerActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,13 +26,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.HolderOrderShop> implements Filterable {
+public class AdapterOrderAdmin extends RecyclerView.Adapter<AdapterOrderAdmin.HolderOrderShop> implements Filterable {
 
     private Context context;
     public ArrayList<ModelOrderStaff> orderStaffList, filterList;
-    private FilterOrderStaff filter;
+    private FilterOrderAdmin filter;
 
-    public AdapterOrderStaff(Context context, ArrayList<ModelOrderStaff> orderStaffList) {
+    public AdapterOrderAdmin(Context context, ArrayList<ModelOrderStaff> orderStaffList) {
         this.context = context;
         this.orderStaffList = orderStaffList;
         this.filterList = orderStaffList;
@@ -43,7 +42,7 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
     @Override
     public HolderOrderShop onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout
-        View view = LayoutInflater.from(context).inflate(R.layout.row_order_staff, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_order_admin, parent, false);
         return new HolderOrderShop(view);
     }
 
@@ -57,6 +56,7 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
         String orderStatus = modelOrderStaff.getOrderStatus();
         String orderCost = modelOrderStaff.getOrderCost();
         final String orderBy = modelOrderStaff.getOrderBy();
+        String orderTable = modelOrderStaff.getOrderTable();
         
         //load customer info
         loadCustomerInfo(modelOrderStaff, holder);
@@ -65,8 +65,12 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
         holder.orderIdTv.setText("OrderID: "+orderId);
         holder.amountTv.setText("Total Amount: RM " +orderCost);
         holder.statusTv.setText(orderStatus);
+        holder.tableNoTv.setText(orderTable);
 
         //change order status
+        if (orderStatus.equals("Pending")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.teal_700));
+        }
         if (orderStatus.equals("In Progress")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.blue));
         }
@@ -95,7 +99,7 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
             @Override
             public void onClick(View v) {
                 //open order details, we need to keys there, orderID
-                Intent intent = new Intent(context, OrderDetailsStaffActivity.class);
+                Intent intent = new Intent(context, OrderDetailsAdminActivity.class);
                 intent.putExtra("orderId",orderId); //to load order info
                 intent.putExtra("orderBy",orderBy); //to load info cust who placed the order
                 context.startActivity(intent); // now get these values through OrdersDetailsActivity
@@ -135,7 +139,7 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
     public Filter getFilter() {
         if (filter == null){
             //init filter
-            filter = new FilterOrderStaff(this, filterList);
+            filter = new FilterOrderAdmin(this, filterList);
         }
         return filter;
     }
@@ -156,7 +160,7 @@ public class AdapterOrderStaff extends RecyclerView.Adapter<AdapterOrderStaff.Ho
             orderIdTv = itemView.findViewById(R.id.orderIdTv);
             dateTv = itemView.findViewById(R.id.dateTv);
             timeTv = itemView.findViewById(R.id.timeTv);
-            //tableNoTv = itemView.findViewById(R.id.tableNoTv);
+            tableNoTv = itemView.findViewById(R.id.tableNoTv);
             amountTv = itemView.findViewById(R.id.amountTv);
             statusTv = itemView.findViewById(R.id.statusTV);
             viewItem = itemView.findViewById(R.id.nextIv);

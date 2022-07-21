@@ -56,51 +56,11 @@
         android:layout_marginTop="72dp"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/sTotalLabelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Sub Total:"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/sTotalTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:padding="5dp"
-            android:text="RM 0.0"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/taxLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sTotalLabelTv"
-            android:padding="5dp"
-            android:text="Tax  SST :"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/taxTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sTotalLabelTv"
-            android:layout_alignParentEnd="true"
-            android:padding="5dp"
-            android:text="0.6%"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/totalLabelTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/taxTv"
             android:padding="5dp"
             android:text="Total Price:"
             android:textColor="@color/black"
@@ -110,7 +70,6 @@
             android:id="@+id/totalTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/taxTv"
             android:layout_alignParentEnd="true"
             android:padding="5dp"
             android:text="RM 0.0"
@@ -125,9 +84,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="37dp"
-            android:layout_marginTop="117dp"
-            android:layout_marginEnd="44dp"
+            android:layout_marginStart="66dp"
+            android:layout_marginTop="67dp"
+            android:layout_marginEnd="55dp"
             android:background="@color/purple_500"
             android:text="Confirm Order" />
 

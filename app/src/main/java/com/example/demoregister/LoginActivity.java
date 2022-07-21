@@ -15,12 +15,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demoregister.Drink.CartActivity;
-import com.example.demoregister.Drink.MainActivity;
+import com.example.demoregister.admin.MainAdminActivity;
 import com.example.demoregister.admin.MainStaffActivity;
 import com.example.demoregister.admin.RegisterStaffActivity;
 import com.example.demoregister.customer.MainCustomerActivity;
-import com.example.demoregister.customer.ShopDetailsActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -132,56 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         //String update = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         user = mAuth.getCurrentUser();
-        /* internet 2
-        ref.orderByChild("user").equalTo(user.getEmail()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot userSnapshot: snapshot.getChildren()){
-                    userSnapshot.getRef().child("online").setValue("true");
-                    checkUserType();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressDialog.dismiss();
-            }
-        }); */
-
-
-        /*cara internet1
-        ref.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                for(DataSnapshot snapshot: datasnapshot.getChildren()){
-                    snapshot.getKey();
-                    ref.child("online").setValue("true");
-                    snapshot.getRef().updateChildren();
-                    checkUserType();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        }); */
-
-       /* Idea Biy
-
-       ref.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                snapshot.getKey();
-                snapshot.getRef().child("online").setValue("true");
-                checkUserType();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressDialog.dismiss();
-            }
-        }); */
 
         //yang asal
         ref.child(mAuth.getUid()).updateChildren(hashMap)
@@ -216,10 +165,17 @@ public class LoginActivity extends AppCompatActivity {
                         for (DataSnapshot ds: snapshot.getChildren()){
                             String accountType = ""+ds.child("accountType").getValue();
                             if (accountType.equals("Staff")){
-                                //nanti buat dua admin gan staff
+                                //login untuk staff
                                 progressDialog.dismiss();
                                 //user is staff
                                 startActivity(new Intent(LoginActivity.this, MainStaffActivity.class));
+                                finish();
+                            }
+                            else if (accountType.equals("Admin")){
+                                //login untuk Admin
+                                progressDialog.dismiss();
+                                //user is staff
+                                startActivity(new Intent(LoginActivity.this, MainAdminActivity.class));
                                 finish();
                             }
                             else{

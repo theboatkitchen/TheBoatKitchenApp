@@ -26,4 +26,11 @@ public class Constants {
             "Nasi Goreng",
             "Western Box"
     };
+
+    //account type
+    public static final String[] accountType ={
+            "Admin",
+            "Staff"
+    };
 }
+

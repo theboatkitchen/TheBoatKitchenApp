@@ -1,18 +1,17 @@
 package com.example.demoregister.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -21,10 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.demoregister.R;
 import com.example.demoregister.customer.AdapterOrderedItem;
-import com.example.demoregister.customer.CartPageActivity;
-import com.example.demoregister.customer.MainCustomerActivity;
 import com.example.demoregister.customer.ModelOrderedItem;
-import com.example.demoregister.customer.OrderDetailsCustomerActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -42,7 +37,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OrderDetailsStaffActivity extends AppCompatActivity {
+public class OrderDetailsInKitchen extends AppCompatActivity {
 
     //ui views
     private ImageButton backBtn,editBtn;
@@ -56,12 +51,16 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
     private ArrayList<ModelOrderedItem> orderedItemList;
     private AdapterOrderedItem adapterOrderedItem;
 
+    //edit options
+    Button CompletedOrder;
+    String selectedOptions;
+
     String orderId,orderBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_details_staff);
+        setContentView(R.layout.order_in_kitchen);
 
 
         //init views
@@ -75,6 +74,17 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
         totalItemsRv = findViewById(R.id.itemsTv);
         itemsRv = findViewById(R.id.itemsRv);
         custNameTv = findViewById(R.id.custNameTv);
+
+        //accept/reject order
+        CompletedOrder = findViewById(R.id.Completed);
+
+        CompletedOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedOptions = "Completed";
+                editOrderStatus(selectedOptions);
+            }
+        });
 
         //get data from intent holder view items adapterorderstaff
         //get data from intent daripada MyFirebaseMessaging jugak at the same time
@@ -96,30 +106,8 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
             }
         });
 
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               //edit order status: In Progress, Completed, Cancelled
-                editOrderStatusDialog();
-            }
-        });
     }
 
-    private void editOrderStatusDialog() {
-        //options to display in dialog
-        final String[] options = {"In Progress", "Completed", "Cancelled"};
-        //dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Order Status")
-                .setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        //handle item clicks
-                        String selectedOptions = options[i];
-                        editOrderStatus(selectedOptions);
-                    }
-                }).show();
-    }
 
     private void editOrderStatus(String selectedOptions) {
         //setup data to put in firebase db
@@ -134,7 +122,7 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         String message = "Order is now "+selectedOptions;
                         //status updated
-                        Toast.makeText(OrderDetailsStaffActivity.this, message,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsInKitchen.this, message,Toast.LENGTH_SHORT).show();
 
                         prepareNotificationMessage(orderId, message);
 
@@ -144,7 +132,7 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //failed updating status, show reason
-                        Toast.makeText(OrderDetailsStaffActivity.this, ""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsInKitchen.this, ""+e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -166,7 +154,7 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
                         }
                         //all items added to list
                         //setup adpter
-                        adapterOrderedItem = new AdapterOrderedItem(OrderDetailsStaffActivity.this, orderedItemList);
+                        adapterOrderedItem = new AdapterOrderedItem(OrderDetailsInKitchen.this, orderedItemList);
                         //set adapter
                         itemsRv.setAdapter(adapterOrderedItem);
 
@@ -177,7 +165,7 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(OrderDetailsStaffActivity.this, ""+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsInKitchen.this, ""+ error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -196,7 +184,7 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
                         String orderID = ""+snapshot.child("orderId").getValue();
                         String orderStatus = ""+snapshot.child("orderStatus").getValue();
                         String orderTime = ""+snapshot.child("orderTime").getValue();
-                        //String orderTable = ""+snapshot.child("orderTable").getValue();
+                        String orderTable = ""+snapshot.child("orderTable").getValue();
 
                         //conver timestamp to proper format
                         Calendar calendar = Calendar.getInstance();
@@ -206,6 +194,9 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
 
 
                         //change order status
+                        if (orderStatus.equals("Pending")){
+                            orderStatusTv.setTextColor(getResources().getColor(R.color.teal_700));
+                        }
                         if (orderStatus.equals("In Progress")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.blue));
                         }
@@ -221,17 +212,17 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
                         orderStatusTv.setText(orderStatus);
                         amountTv.setText("RM "+orderCost);
                         dateTv.setText(formatedDate);
-                        //tableNoTv.setText(orderTable);
+                        tableNoTv.setText(orderTable);
 
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(OrderDetailsStaffActivity.this, ""+ error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsInKitchen.this, ""+ error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-    //orderByChild("userid").equalTo(orderBy)
+
     private void loadCustInfo() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.orderByChild("userid").equalTo(orderBy)
@@ -251,26 +242,11 @@ public class OrderDetailsStaffActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(OrderDetailsStaffActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderDetailsInKitchen.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void loadMyInfo() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(firebaseAuth.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String staffEmail = ""+snapshot.child("staffEmail").getValue();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(OrderDetailsStaffActivity.this, ""+ error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     private void prepareNotificationMessage(String orderId, String message){
         //when staff changes order status InProgress/Cancelled/Completed, send notification to customer

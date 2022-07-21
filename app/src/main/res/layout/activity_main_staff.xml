@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".customer.MainCustomerActivity">
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="@drawable/foreground_design"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".admin.MainStaffActivity">
 
     <!--Toolbar-->
     <RelativeLayout
@@ -42,17 +30,15 @@
             android:background="@null"
             android:src="@drawable/ic_baseline_edit_24" />
 
-        <!--Setting Button
+        <!--Add product button
         <ImageButton
-            android:id="@+id/settingsBtn"
+            android:id="@+id/addProductBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_toStartOf="@+id/editProfileBtn"
             android:background="@null"
-            android:src="@drawable/ic_setting_white_24" />
+            android:src="@drawable/ic_add_cart_white" />
        -->
-
-
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileIv"
@@ -79,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
             android:layout_toEndOf="@id/profileIv"
+
             android:text="Email"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -101,7 +88,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect04"
                 android:gravity="center"
-                android:text="Restaurant"
+                android:text="Too Cook [quantity]"
                 android:textColor="@color/black" />
 
             <!--Orders-->
@@ -111,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="My Orders"
+                android:text="In Kitchen [quantity]"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -119,45 +106,41 @@
 
     <!--Products-->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/productsRL"
         android:layout_below="@+id/toolbarRL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:id="@+id/startorder"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp">
+
+        <!--RecyclerView: show products-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productsV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="307dp"
-            android:layout_marginEnd="46dp"
-            android:background="@drawable/btn_bg_design"
-            android:padding="14dp"
-            android:text="Start your order"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/row_order_admin" />
 
     </RelativeLayout>
 
     <!--Orders-->
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/ordersRL"
-        android:layout_below="@+id/toolbarRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbarRL"
         android:layout_marginTop="5dp">
-        <!--recyclerview: show orders(newest first)-->
+
+        <!--Show orders-->
+        <!-- app:stackFromEnd="true" to load newest first-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ordersRv"
+            android:id="@+id/orderRv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:stackFromEnd="true"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/row_order_admin"
             app:reverseLayout="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/row_order_user"/>
+            app:stackFromEnd="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </RelativeLayout>
 

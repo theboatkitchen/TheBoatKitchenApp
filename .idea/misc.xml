@@ -31,12 +31,13 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_main_admin.xml" value="0.20555555555555555" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_main_customer.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_main_customer.xml" value="0.25" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_main_staff.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_order_details_customer.xml" value="0.25" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_order_details_staff.xml" value="0.31179775280898875" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_order_details_staff.xml" value="0.30654761904761907" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_registration.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_registration_admin.xml" value="0.25" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_registration_staff.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_registration_staff.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_settings.xml" value="0.23595505617977527" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_shope_details.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/activity_splash.xml" value="0.22" />
@@ -50,6 +51,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/content_welcome_admin.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/dialog_cart.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/dialog_quantity.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/dialog_table_no.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/forgot_password.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/fragment_gallery.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/fragment_home.xml" value="0.22447916666666667" />
@@ -57,14 +59,19 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/layout_cart_item.xml" value="0.18" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/layout_drink_item.xml" value="0.18" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/nav_header_welcome_admin.xml" value="0.33" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/order_In_Kitchen.xml" value="0.18426678067550234" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/order_in_kitchen.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/order_staff.xml" value="0.25" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/order_too_cook.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_cart_item.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_menu_customer.xml" value="0.22" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_menu_staff.xml" value="0.21" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_order_admin.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_order_staff.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_order_user.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/row_ordered_item.xml" value="0.40304182509505704" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/test.xml" value="0.25" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/test_cart.xml" value="0.1" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/test_cart.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/test_dialog_cart.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/layout/testlogo.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/DemoRegister/app/src/main/res/menu/welcome_admin.xml" value="0.18426678067550234" />

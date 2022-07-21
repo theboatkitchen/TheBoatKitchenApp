@@ -17,8 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.example.demoregister.admin.MainStaffActivity;
-import com.example.demoregister.admin.OrderDetailsStaffActivity;
+import com.example.demoregister.admin.OrderDetailsAdminActivity;
 import com.example.demoregister.customer.OrderDetailsCustomerActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,7 +70,15 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                                 accountType = "" + ds.child("accountType").getValue();
                                 //String staffId = "" + ds.child("userid").getValue();
                                 String staffId = firebaseAuth.getUid();
+                                //keluar notification new order dekat staff
                                 if (firebaseAuth.getUid() != null && accountType.equals("Staff")) {
+                                    //user is signed in as staff is same user to which notification is to be sent
+
+                                    showNotification(orderId,staffId,customerId,notificationTitle,notificationDescription, notificationType);
+                                    //Toast.makeText(MyFirebaseMessaging.this, ""+orderId+""+customerId,Toast.LENGTH_LONG).show();
+                                }
+                                //keluar notification new order dekat admin
+                                if (firebaseAuth.getUid() != null && accountType.equals("Admin")) {
                                     //user is signed in as staff is same user to which notification is to be sent
 
                                     showNotification(orderId,staffId,customerId,notificationTitle,notificationDescription, notificationType);
@@ -126,7 +133,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             if (notificationType.equals("NewOrder")){
 
                 //open OrderDetailsStaffActivity
-                intent = new Intent(this, OrderDetailsStaffActivity.class);
+                intent = new Intent(this, OrderDetailsAdminActivity.class);
                 intent.putExtra("orderId",orderId);
                 intent.putExtra("orderBy",customerId);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

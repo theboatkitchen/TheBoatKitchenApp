@@ -8,17 +8,19 @@ public class ModelOrderStaff {
     String orderCost;
     String orderBy;
     String empId;
+    String orderTable;
 
     public ModelOrderStaff() {
     }
 
-    public ModelOrderStaff(String orderId, String orderTime, String orderStatus, String orderCost, String orderBy, String empId) {
+    public ModelOrderStaff(String orderId, String orderTime, String orderStatus, String orderCost, String orderBy, String empId, String orderTable) {
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
         this.orderCost = orderCost;
         this.orderBy = orderBy;
         this.empId = empId;
+        this.orderTable = orderTable;
     }
 
     public String getOrderId() {
@@ -67,5 +69,13 @@ public class ModelOrderStaff {
 
     public void setEmpId(String empId) {
         this.empId = empId;
+    }
+
+    public String getOrderTable() {
+        return orderTable;
+    }
+
+    public void setOrderTable(String orderTable) {
+        this.orderTable = orderTable;
     }
 }

@@ -36,6 +36,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
     private Context countpage;
     private ArrayList<ModelCartItem> cartItems;
 
+    CartPageActivity cartPageActivity;
+
     public AdapterCartItem(Context context,ArrayList<ModelCartItem> cartItems) {
         this.context = context;
         //this.countpage = countpage;
@@ -251,7 +253,8 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(context.getApplicationContext(),"Berjaya update quantity dan total",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context.getApplicationContext(),"Berjaya update quantity dan total",Toast.LENGTH_SHORT).show();
+                        ((CartPageActivity)context).loadAllCart();
                     }
 
                 });
@@ -301,8 +304,6 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
             RemoveTv = itemView.findViewById(R.id.itemRemoveTv);
             btnMinus = itemView.findViewById(R.id.btnMinus);
             btnPlus = itemView.findViewById(R.id.btnPlus);
-            //ImageButton decrementBtn = view.findViewById(R.id.decrementBtn);
-            //ImageButton incrementBtn = view.findViewById(R.id.incrementBtn);
         }
     }
 }

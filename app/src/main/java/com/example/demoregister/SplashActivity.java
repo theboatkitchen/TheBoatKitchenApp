@@ -10,8 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.demoregister.Drink.CartActivity;
-import com.example.demoregister.Drink.MainActivity;
+import com.example.demoregister.admin.MainAdminActivity;
 import com.example.demoregister.admin.MainStaffActivity;
 import com.example.demoregister.customer.MainCustomerActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +69,12 @@ public class SplashActivity extends AppCompatActivity {
 
                             //user is staff
                             startActivity(new Intent(SplashActivity.this, MainStaffActivity.class));
+                            finish();
+                        }
+                        else if (accountType.equals("Admin")){
+
+                            //user is staff
+                            startActivity(new Intent(SplashActivity.this, MainAdminActivity.class));
                             finish();
                         }
                         else{

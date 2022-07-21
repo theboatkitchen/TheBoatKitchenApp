@@ -167,7 +167,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
             }
         });
 
-
         viewcart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,10 +179,8 @@ public class ShopDetailsActivity extends AppCompatActivity {
     }
 
     private void addCart() {
-
         //open cartpage activity
         startActivity(new Intent(ShopDetailsActivity.this, CartPageActivity.class));
-
 
     }
 
@@ -226,7 +223,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
     private void loadAllProducts() {
         productList = new ArrayList<>();
-
 
         //get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Menu");
@@ -272,7 +268,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
                 });
     }
 
-
     public void countCartItem() {
         cartItemList = new ArrayList<>();
 
@@ -301,7 +296,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
     }
 
-
     private void countNoti(ArrayList<ModelCartItem> cartItemList) {
 
         int cartSum =0;
@@ -315,7 +309,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
 
         badge.setNumber(cartSum);
     }
-
 
     private void checkUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();

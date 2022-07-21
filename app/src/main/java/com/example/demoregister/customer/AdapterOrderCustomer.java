@@ -46,13 +46,18 @@ public class AdapterOrderCustomer extends RecyclerView.Adapter<AdapterOrderCusto
         String orderStatus = modelOrderCustomer.getOrderStatus();
         String orderCost = modelOrderCustomer.getOrderCost();
         String orderBy = modelOrderCustomer.getOrderBy();
+        String orderTable = modelOrderCustomer.getOrderTable();
 
         //set data
         holder.orderIdTv.setText("OrderID: "+orderId);
         holder.amountTv.setText("Total Amount: RM " +orderCost);
         holder.statusTv.setText(orderStatus);
+        holder.tableNoTv.setText(orderTable);
 
         //change order status
+        if (orderStatus.equals("Pending")){
+            holder.statusTv.setTextColor(context.getResources().getColor(R.color.teal_700));
+        }
         if (orderStatus.equals("In Progress")){
             holder.statusTv.setTextColor(context.getResources().getColor(R.color.blue));
         }
@@ -109,7 +114,7 @@ public class AdapterOrderCustomer extends RecyclerView.Adapter<AdapterOrderCusto
             orderIdTv = itemView.findViewById(R.id.orderIdTv);
             dateTv = itemView.findViewById(R.id.dateTv);
             timeTv = itemView.findViewById(R.id.timeTv);
-            //tableNoTv = itemView.findViewById(R.id.tableNoTv);
+            tableNoTv = itemView.findViewById(R.id.tableNoTv);
             amountTv = itemView.findViewById(R.id.amountTv);
             statusTv = itemView.findViewById(R.id.statusTV);
             viewItem = itemView.findViewById(R.id.nextIv);

@@ -20,9 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.demoregister.LoginActivity;
 import com.example.demoregister.R;
-import com.example.demoregister.SettingsActivity;
-import com.example.demoregister.admin.MainStaffActivity;
-import com.example.demoregister.admin.ProfileEditStaffActivity;
+import com.example.demoregister.admin.Constants;
 import com.example.demoregister.model.ModelCartItem;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nex3z.notificationbadge.NotificationBadge;
 import com.squareup.picasso.Picasso;
 
@@ -82,7 +81,7 @@ public class MainCustomerActivity extends AppCompatActivity {
         logoutBtn = findViewById(R.id.logoutBtn);
         editProfileBtn = findViewById(R.id.editProfileBtn);
         startorderBtn = findViewById(R.id.startorder);
-        settingBtn = findViewById(R.id.settingsBtn);
+        //settingBtn = findViewById(R.id.settingsBtn);
 
 
         productsRL = findViewById(R.id.productsRL);
@@ -96,11 +95,10 @@ public class MainCustomerActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
-
+        subsctibeToTopic();
         showProductsUI();
 
-        //loadAllProducts();
-
+        /*
         //start setting screen
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +107,7 @@ public class MainCustomerActivity extends AppCompatActivity {
             }
         });
 
+         */
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,8 +163,26 @@ public class MainCustomerActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
+
+    private void subsctibeToTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic(Constants.FCM_TOPIC)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //Toast.makeText(MainCustomerActivity.this, "Enable Push Notifications", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed subscribing
+                        Toast.makeText(MainCustomerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void showProductsUI() {
         //show products UI and hide order UI
@@ -206,6 +223,7 @@ public class MainCustomerActivity extends AppCompatActivity {
                         //update successfully
                         firebaseAuth.signOut();
                         checkUser();
+                        unSubcribeToTopic();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -216,6 +234,25 @@ public class MainCustomerActivity extends AppCompatActivity {
                         Toast.makeText(MainCustomerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void unSubcribeToTopic() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.FCM_TOPIC)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed unsubscribing
+                        Toast.makeText(MainCustomerActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
     }
 
     private void checkUser() {

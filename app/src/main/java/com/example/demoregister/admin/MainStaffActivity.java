@@ -1,12 +1,8 @@
 package com.example.demoregister.admin;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.demoregister.LoginActivity;
 import com.example.demoregister.R;
-import com.example.demoregister.SettingsActivity;
 import com.example.demoregister.model.CreateMenuModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,11 +35,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainStaffActivity extends AppCompatActivity {
-
-    private TextView nameTxt, tabProductsTv, tabOrdersTv, filterProductTv;
+    private TextView nameTxt, tabTooCookTv, tabInKitchenTv, filterProductTv;
     private TextView emailTxt;
     private EditText searchProductEt;
-    private ImageButton logoutBtn,editProfileBtn, addProductBtn, filterProductBtn, settingBtn;
+    private ImageButton logoutBtn,editProfileBtn, addProductBtn, filterProductBtn;
     private ImageView profileImage;
     private RelativeLayout productsRL, ordersRL;
 
@@ -62,39 +56,44 @@ public class MainStaffActivity extends AppCompatActivity {
     private ArrayList<CreateMenuModel> productList;
     private AdapterMenuStaff adapterMenuStaff;
 
-    //order
+    //orderToCook
+    private AdapterOrderToCook adapterOrderToCook;
+    private ArrayList<ModelOrderToCook> orderCookList;
+
+    //orderInKitchen
     private ArrayList<ModelOrderStaff> orderList;
-    private AdapterOrderStaff adapterOrderStaff;
+    private AdapterOrderInKitchen adapterOrderInKitchen;
+    //private AdapterOrderAdmin adapterOrderAdmin;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_admin);
+        setContentView(R.layout.activity_main_staff);
 
         nameTxt = findViewById(R.id.name);
         emailTxt = findViewById(R.id.email);
         profileImage = findViewById(R.id.profileIv);
 
-        tabProductsTv = findViewById(R.id.tabProductsTv);
-        tabOrdersTv = findViewById(R.id.tabOrdersTv);
-        searchProductEt = findViewById(R.id.searchProductEt);
+        tabTooCookTv = findViewById(R.id.tabProductsTv);
+        tabInKitchenTv = findViewById(R.id.tabOrdersTv);
+        //searchProductEt = findViewById(R.id.searchProductEt);
 
-        filterProductTv = findViewById(R.id.filerteredProductsTv);
-        filterProductBtn = findViewById(R.id.filterProductBtn);
+        //filterProductTv = findViewById(R.id.filerteredProductsTv);
+        //filterProductBtn = findViewById(R.id.filterProductBtn);
         logoutBtn = findViewById(R.id.logoutBtn);
         editProfileBtn = findViewById(R.id.editProfileBtn);
-        addProductBtn = findViewById(R.id.addProductBtn);
-        //settingBtn = findViewById(R.id.settingsBtn);
-
 
         productsRL = findViewById(R.id.productsRL);
         ordersRL = findViewById(R.id.ordersRL);
-        productsRV = findViewById(R.id.productsV);
+
 
         //order
-        searchTv = findViewById(R.id.searchTv);
-        filterOrderBtn = findViewById(R.id.filterOrderBtn);
+        //searchTv = findViewById(R.id.searchTv);
+        //filterOrderBtn = findViewById(R.id.filterOrderBtn);
+        //recyclerview
         orderRv = findViewById(R.id.orderRv);
+        productsRV = findViewById(R.id.productsV);
 
 
         progressDialog = new ProgressDialog(this);
@@ -103,45 +102,11 @@ public class MainStaffActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
-        loadAllProducts();
-        loadAllOrders();
+        loadTooCook();
+        loadInKitchen();
+        subsctibeToTopic();
+        showTooCookUI();
 
-        showProductsUI();
-
-        //start setting screen
-        /*
-        settingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainStaffActivity.this, SettingsActivity.class));
-            }
-        });
-
-         */
-
-        //search
-        searchProductEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    adapterMenuStaff.getFilter().filter(s);
-
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,86 +135,24 @@ public class MainStaffActivity extends AppCompatActivity {
             }
         });
 
-        addProductBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //open create menu activity
-                startActivity(new Intent(MainStaffActivity.this, CreateMenu.class));
-            }
-        });
-
-        tabProductsTv.setOnClickListener(new View.OnClickListener() {
+        tabTooCookTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //load products
-                showProductsUI();
+                showTooCookUI();
             }
         });
 
-        tabOrdersTv.setOnClickListener(new View.OnClickListener() {
+        tabInKitchenTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //load products
-                showOrdersUI();
+                showInKitchenUI();
 
             }
         });
 
-        filterProductBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainStaffActivity.this);
-                builder.setTitle("Choose Category:")
-                        .setItems(Constants.menuCategories1, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    //get selected item
-                                    String selected = Constants.menuCategories1[which];
-                                    filterProductTv.setText(selected);
-                                    if (selected.equals("All")){
-                                        //load all
-                                        loadAllProducts();
-                                    }
-                                    else{
-                                        //load filtered
-                                        loadFilteredProducts(selected);
-                                    }
-                            }
-                        })
-                        .show();
-            }
-        });
 
-        filterOrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //options to display in dialog
-                String[] options ={"All", "In Progress", "Completed", "Canceled"};
-                //dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainStaffActivity.this);
-                builder.setTitle("Filter Orders:")
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //handle item clicks
-                                if (which==0){
-                                    //All clicked
-                                    searchTv.setText("Showing All Orders");
-                                    adapterOrderStaff.getFilter().filter("");// show all orders
-                                }
-                                else {
-                                    String optionClicked = options[which];
-                                    searchTv.setText("Showing "+optionClicked+" Orders");//Showing Completed Orders
-                                    adapterOrderStaff.getFilter().filter(optionClicked);
-                                }
-                            }
-                        })
-                        .show();
-
-            }
-        });
-
-        subsctibeToTopic();
     }
 
     private void subsctibeToTopic() {
@@ -257,7 +160,7 @@ public class MainStaffActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(MainStaffActivity.this, "Enable Push Notifications", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainStaffActivity.this, "Enable Push Notifications", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -269,7 +172,8 @@ public class MainStaffActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadAllOrders() {
+    //load order dekat In Kitchen orderstatus = In Progress
+    private void loadInKitchen() {
         //init array list
         orderList = new ArrayList<>();
 
@@ -281,14 +185,34 @@ public class MainStaffActivity extends AppCompatActivity {
                 //clear list before adding new data in it
                 orderList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()){
-                    ModelOrderStaff modelOrderStaff = ds.getValue(ModelOrderStaff.class);
-                    //add to list
-                    orderList.add(modelOrderStaff);
+
+
+                    String OrderStatus = ""+ds.child("orderStatus").getValue();
+
+                    //if selected category matches product category then add in list
+                    if (OrderStatus.equals("In Progress")){
+
+                        ModelOrderStaff modelOrderStaff = ds.getValue(ModelOrderStaff.class);
+
+                        /*
+                        int countStatus=0;
+                        for(ModelOrderStaff os: orderList){
+                            if(os.getOrderStatus().equalsIgnoreCase("In Progress")){
+                            countStatus += Integer.parseInt(os.getOrderStatus());
+                                //set items count
+                                tabInKitchenTv.setText("In Kitchen[ "+countStatus+" ]");
+                            }
+                        }
+
+                         */
+                        //add to list
+                        orderList.add(modelOrderStaff);
+                    }
                 }
                 //setup adapter
-                adapterOrderStaff = new AdapterOrderStaff(MainStaffActivity.this, orderList);
+                adapterOrderInKitchen = new AdapterOrderInKitchen(MainStaffActivity.this, orderList);
                 //set adapter to recylerview
-                orderRv.setAdapter(adapterOrderStaff);
+                orderRv.setAdapter(adapterOrderInKitchen);
             }
 
             @Override
@@ -298,95 +222,78 @@ public class MainStaffActivity extends AppCompatActivity {
         });
     }
 
-    private void loadFilteredProducts(String selected) {
-        productList = new ArrayList<>();
-        String user = firebaseAuth.getUid();
+    //load order dekat To Cook orderstatus = Pending
+    private void loadTooCook() {
+        //init array list
+        orderCookList = new ArrayList<>();
 
-        //get all products
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Menu");
-        reference.orderByChild("empid").equalTo(user)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //before getting rest List
-                        productList.clear();
-                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+        //load orders of customer
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Order");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //clear list before adding new data in it
+                orderCookList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()){
 
-                            String productCategory = ""+ds.child("category").getValue();
 
-                            //if selected category matches product category then add in list
-                            if (selected.equals(productCategory)){
+                    String OrderStatus = ""+ds.child("orderStatus").getValue();
 
-                                CreateMenuModel createMenuModel = ds.getValue(CreateMenuModel.class);
-                                productList.add(createMenuModel);
+                    //if selected category matches product category then add in list
+                    if (OrderStatus.equals("Pending")){
 
+                        ModelOrderToCook modelOrderToCook = ds.getValue(ModelOrderToCook.class);
+
+                        /*
+                        int countStatus=0;
+                        for(ModelOrderStaff os: orderList){
+                            if(os.getOrderStatus().equalsIgnoreCase("In Progress")){
+                            countStatus += Integer.parseInt(os.getOrderStatus());
+                                //set items count
+                                tabInKitchenTv.setText("In Kitchen[ "+countStatus+" ]");
                             }
                         }
-                        //setup adapter
-                        adapterMenuStaff = new AdapterMenuStaff(MainStaffActivity.this, productList);
-                        //set adapter
-                        productsRV.setAdapter(adapterMenuStaff);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                         */
+                        //add to list
+                        orderCookList.add(modelOrderToCook);
                     }
-                });
+                }
+                //setup adapter
+                adapterOrderToCook = new AdapterOrderToCook(MainStaffActivity.this, orderCookList);
+                //set adapter to recylerview
+                productsRV.setAdapter(adapterOrderToCook);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainStaffActivity.this, ""+ error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void loadAllProducts() {
-        productList = new ArrayList<>();
-
-        String user = firebaseAuth.getUid();
-        //get all products
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Menu");
-        reference.orderByChild("empid").equalTo(user)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //sebelum dapatkan update tentang product yang lain clear dulu list
-                        productList.clear();
-                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-                            //dapatkan value array dari kelas java
-                            CreateMenuModel createMenuModel = ds.getValue(CreateMenuModel.class);
-                            productList.add(createMenuModel);
-                        }
-                        //setup adapter untuk view menu list
-                        adapterMenuStaff = new AdapterMenuStaff(MainStaffActivity.this, productList);
-                        //set adapter value menu list
-                        productsRV.setAdapter(adapterMenuStaff);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-    }
-
-    private void showProductsUI() {
-        //show products UI and hide order UI
+    private void showTooCookUI() {
+        //show To Cook UI and hide In Kitchen UI
         productsRL.setVisibility(View.VISIBLE);
         ordersRL.setVisibility(View.INVISIBLE);
 
-        tabProductsTv.setTextColor(getResources().getColor(R.color.black));
-        tabProductsTv.setBackgroundResource(R.drawable.shape_rect04);
+        tabTooCookTv.setTextColor(getResources().getColor(R.color.black));
+        tabTooCookTv.setBackgroundResource(R.drawable.shape_rect04);
 
-        tabOrdersTv.setTextColor(getResources().getColor(R.color.white));
-        tabOrdersTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        tabInKitchenTv.setTextColor(getResources().getColor(R.color.white));
+        tabInKitchenTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 
-    private void showOrdersUI() {
-        //show order UI and hide products UI
+    private void showInKitchenUI() {
+        //show In Kitchen UI and hide  To Cook UI
         ordersRL.setVisibility(View.VISIBLE);
         productsRL.setVisibility(View.INVISIBLE);
 
-        tabProductsTv.setTextColor(getResources().getColor(R.color.white));
-        tabProductsTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        tabTooCookTv.setTextColor(getResources().getColor(R.color.white));
+        tabTooCookTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
-        tabOrdersTv.setTextColor(getResources().getColor(R.color.black));
-        tabOrdersTv.setBackgroundResource(R.drawable.shape_rect04);
+        tabInKitchenTv.setTextColor(getResources().getColor(R.color.black));
+        tabInKitchenTv.setBackgroundResource(R.drawable.shape_rect04);
     }
 
     private void makeMeOffline() {
@@ -478,8 +385,4 @@ public class MainStaffActivity extends AppCompatActivity {
                 });
     }
 
-    public void editProfile(View view) {
-        //open edit profile activity
-        startActivity(new Intent(MainStaffActivity.this, ProfileEditStaffActivity.class));
-    }
 }

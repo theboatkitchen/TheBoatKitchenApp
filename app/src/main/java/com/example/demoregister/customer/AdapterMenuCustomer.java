@@ -220,7 +220,7 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
                                             });
                                 }
 
-                                //update cart count
+                                //update cart count dekat shopeDetailsActivity
                                 ((ShopDetailsActivity)context).countCartItem();
                             }
 

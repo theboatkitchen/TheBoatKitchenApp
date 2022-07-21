@@ -1,10 +1,13 @@
 package com.example.demoregister.customer;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,8 @@ public class CartPageActivity extends AppCompatActivity {
 
     String Currentuser;
 
+    Button checkoutBtn;
+
     //cart
     private ArrayList<ModelCartItem> cartItemList;
     private AdapterCartItem adapterCartItem;
@@ -71,7 +76,6 @@ public class CartPageActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         backBtn = findViewById(R.id.btnBack);
-        //subTotal = findViewById(R.id.sTotalTv);
         TotalPrice = findViewById(R.id.totalTv);
 
         //init progress dialog
@@ -90,7 +94,7 @@ public class CartPageActivity extends AppCompatActivity {
             }
         });
 
-        Button checkoutBtn = findViewById(R.id.checkoutBtn);
+        checkoutBtn = findViewById(R.id.checkoutBtn);
 
         Currentuser = firebaseAuth.getUid();
 
@@ -99,12 +103,47 @@ public class CartPageActivity extends AppCompatActivity {
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addConfirmCart();
+                //open dialog EDit Text Table No
+                dialogTableNo();
+                //addConfirmCart();
             }
         });
+
+
     }
 
-    private void addConfirmCart() {
+
+    private void dialogTableNo() {
+        //inflate layout for dialog
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_table_no, null);
+
+        //init layout views
+        EditText DialogtableNo = (EditText) view.findViewById(R.id.tableNoET);
+        Button confirmTableNo = view.findViewById(R.id.continueBtn);
+
+        //dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+        //lepas isi table no then customer confirm order
+        confirmTableNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get data from layout
+                String tableNo = DialogtableNo.getText().toString();
+
+                addConfirmCart(tableNo);
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void addConfirmCart(String tableNo) {
         if (cartItemList.size() == 0){
             //cart is empty
             Toast.makeText(CartPageActivity.this, "No item in cart", Toast.LENGTH_SHORT).show();
@@ -123,9 +162,10 @@ public class CartPageActivity extends AppCompatActivity {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("orderId", ""+timestamp);
         hashMap.put("orderTime", ""+timestamp);
-        hashMap.put("orderStatus", ""+ "In Progress");
+        hashMap.put("orderStatus", ""+ "Pending");
         hashMap.put("orderCost", ""+ cost);
         hashMap.put("orderBy", ""+ Currentuser);
+        hashMap.put("orderTable", ""+ tableNo);
 
         //add to db
         String user = firebaseAuth.getUid();
@@ -183,7 +223,7 @@ public class CartPageActivity extends AppCompatActivity {
 
     public double allTotalprice = 0.00;
 
-    private void loadAllCart() {
+    public void loadAllCart() {
         //init list
         cartItemList = new ArrayList<>();
 
@@ -215,6 +255,7 @@ public class CartPageActivity extends AppCompatActivity {
 
                                 allTotalprice += modelCartItem.getTotalprice();
 
+                                updateTotal(cartItemList);
                             }
 
                         }
@@ -224,9 +265,9 @@ public class CartPageActivity extends AppCompatActivity {
                         //setup adapter untuk view menu list
                         adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
                         //set to recyclerview
-                        cartItemsRv.setAdapter(adapterCartItem);
+                        //cartItemsRv.setAdapter(adapterCartItem);
                         //subTotal.setText("RM" + String.format("%.2f",allTotalprice));
-                        TotalPrice.setText("RM" + allTotalprice);
+                        //TotalPrice.setText("RM" + allTotalprice);
                         //totalPriceTv.setText(new StringBuilder("RM").append(modelCartItem.getTotalprice()));
 
                     }
@@ -236,6 +277,20 @@ public class CartPageActivity extends AppCompatActivity {
                         Toast.makeText(CartPageActivity.this,""+ error.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void updateTotal(ArrayList<ModelCartItem> cartItemList) {
+        float updateTotal=0;
+        //init views
+        RecyclerView cartItemsRv = findViewById(R.id.cartItemsRv);
+        for(ModelCartItem cm: cartItemList){
+
+            updateTotal+=cm.getTotalprice();
+        }
+        TotalPrice.setText(new StringBuilder("RM ").append(updateTotal));
+        checkoutBtn.setText(new StringBuilder("Checkout (RM:").append(updateTotal)+")");
+        adapterCartItem = new AdapterCartItem(CartPageActivity.this, cartItemList);
+        cartItemsRv.setAdapter(adapterCartItem);
     }
 
     private void prepareNotificationMessage(String orderId){

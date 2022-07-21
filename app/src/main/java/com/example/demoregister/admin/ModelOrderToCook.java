@@ -1,6 +1,6 @@
-package com.example.demoregister.customer;
+package com.example.demoregister.admin;
 
-public class ModelOrderCustomer {
+public class ModelOrderToCook {
 
     String orderId;
     String orderTime;
@@ -10,10 +10,10 @@ public class ModelOrderCustomer {
     String empId;
     String orderTable;
 
-    public ModelOrderCustomer() {
+    public ModelOrderToCook() {
     }
 
-    public ModelOrderCustomer(String orderId, String orderTime, String orderStatus, String orderCost, String orderBy, String empId, String orderTable) {
+    public ModelOrderToCook(String orderId, String orderTime, String orderStatus, String orderCost, String orderBy, String empId, String orderTable) {
         this.orderId = orderId;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;

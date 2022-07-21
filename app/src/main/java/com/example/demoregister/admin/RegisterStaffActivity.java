@@ -31,7 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterStaffActivity extends AppCompatActivity {
 
-    EditText staffName,staffGender,staffAge,staffPhone,staffEmail,staffPassword,conpassword,staffIC;
+    EditText accountTypeTv,staffName,staffGender,staffAge,staffPhone,staffEmail,staffPassword,conpassword,staffIC;
     FirebaseAuth mAuth;
     FirebaseUser user;
 
@@ -54,8 +54,11 @@ public class RegisterStaffActivity extends AppCompatActivity {
         staffPassword = (EditText)findViewById(R.id.BKpassword);
         conpassword = (EditText)findViewById(R.id.Conpassword);
         backBtn = findViewById(R.id.backBtn);
+        accountTypeTv = findViewById(R.id.accountType);
 
         backBtn.setOnClickListener((v) -> {onBackPressed();});
+
+        //pick gender
         staffGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +81,32 @@ public class RegisterStaffActivity extends AppCompatActivity {
                         }).show();
             }
         });
+
+        //pick accountType
+
+        accountTypeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //pick gender type
+                AccountTypeDialog();
+            }
+
+            private void AccountTypeDialog() {
+                //dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterStaffActivity.this);
+                builder.setTitle("Account Type")
+                        .setItems(Constants.accountType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                String pickcategory = Constants.accountType[which];
+
+                                //set picked category
+                                accountTypeTv.setText(pickcategory);
+                            }
+                        }).show();
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
@@ -86,7 +115,7 @@ public class RegisterStaffActivity extends AppCompatActivity {
 
     }
 
-    String staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,ConpasswordTxt,IcTxt, accountType, online, staffImage;
+    String accTypeTxt,staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,ConpasswordTxt,IcTxt, accountType, online, staffImage;
     public void createUser(View v){
 
        nameTxt = staffName.getText().toString();
@@ -97,6 +126,7 @@ public class RegisterStaffActivity extends AppCompatActivity {
        emailTxt = staffEmail.getText().toString();
        passwordTxt = staffPassword.getText().toString();
        ConpasswordTxt = conpassword.getText().toString();
+       accountType = accountTypeTv.getText().toString();
 
         boolean pattern = phoneTxt.length()>=10&&phoneTxt.length()<=11;
 
@@ -114,6 +144,10 @@ public class RegisterStaffActivity extends AppCompatActivity {
         }
         if(TextUtils.isEmpty(genderTxt)){
             Toast.makeText(getApplicationContext(),"Gender cannot be blank", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(accountType)){
+            Toast.makeText(getApplicationContext(),"Account Type cannot be blank", Toast.LENGTH_SHORT).show();
             return;
         }
         if(TextUtils.isEmpty(ageTxt)){
@@ -150,7 +184,6 @@ public class RegisterStaffActivity extends AppCompatActivity {
 
     }
 
-
     private void addAccount() {
 
         progressDialog.setMessage("Creating Account..");
@@ -168,7 +201,7 @@ public class RegisterStaffActivity extends AppCompatActivity {
                     private void saveFirebaseData() {
                         progressDialog.setMessage("Saving Account Info..");
 
-                        accountType = "Staff";
+                        //accountType = "Staff";
                         staffImage = "null";
                         online = "false";
 
@@ -178,7 +211,6 @@ public class RegisterStaffActivity extends AppCompatActivity {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         //enter user data into database
                         RegisterStaffModel staffDetails = new RegisterStaffModel(staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, staffImage);
-
 
 
                         ref.child(staffid).setValue(staffDetails)

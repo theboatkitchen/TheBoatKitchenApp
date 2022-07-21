@@ -21,7 +21,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.OrderDetailsStaffActivity"
+            android:name=".admin.OrderDetailsAdminActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -56,7 +56,7 @@
             android:name=".admin.CreateMenu"
             android:exported="false" />
         <activity
-            android:name=".admin.MainStaffActivity"
+            android:name=".admin.MainAdminActivity"
             android:exported="false" />
         <activity
             android:name=".admin.EditMenuActivity"
@@ -84,8 +84,21 @@
             android:name=".customer.ProfileEditCustomerActivity"
             android:exported="false">
         </activity>
+
         <activity
             android:name=".customer.OrderDetailsCustomerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".admin.MainStaffActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".admin.OrderDetailsTooCook"
+            android:exported="false" />
+
+        <activity
+            android:name=".admin.OrderDetailsInKitchen"
             android:exported="false" />
 
         <!--register service to allow to run in background-->
