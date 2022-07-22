@@ -21,7 +21,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.OrderDetailsAdminActivity"
+            android:name=".OrderDetailsAdminActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -47,19 +47,19 @@
             android:name=".ForgotPasswordActivity"
             android:exported="false" /> <!-- Admin Activity -->
         <activity
-            android:name=".admin.RegisterStaffActivity"
+            android:name=".RegisterStaffActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.ProfileEditStaffActivity"
+            android:name=".ProfileEditStaffActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.CreateMenu"
+            android:name=".CreateMenu"
             android:exported="false" />
         <activity
-            android:name=".admin.MainAdminActivity"
+            android:name=".MainAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.EditMenuActivity"
+            android:name=".EditMenuActivity"
             android:exported="false" /> <!-- user activity -->
         <activity
             android:name=".Drink.CartActivity"
@@ -68,37 +68,37 @@
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".customer.MainCustomerActivity"
+            android:name=".MainCustomerActivity"
             android:exported="false" />
         <activity
-            android:name=".customer.ShopDetailsActivity"
+            android:name=".ShopDetailsActivity"
             android:exported="false"
             android:windowSoftInputMode="stateHidden"> <!-- hidden keyboard by default -->
         </activity>
         <activity
-            android:name=".customer.CartPageActivity"
+            android:name=".CartPageActivity"
             android:exported="false"
             android:windowSoftInputMode="stateHidden"> <!-- hidden keyboard by default -->
         </activity>
         <activity
-            android:name=".customer.ProfileEditCustomerActivity"
+            android:name=".ProfileEditCustomerActivity"
             android:exported="false">
         </activity>
 
         <activity
-            android:name=".customer.OrderDetailsCustomerActivity"
+            android:name=".OrderDetailsCustomerActivity"
             android:exported="false" />
 
         <activity
-            android:name=".admin.MainStaffActivity"
+            android:name=".MainStaffActivity"
             android:exported="false" />
 
         <activity
-            android:name=".admin.OrderDetailsTooCook"
+            android:name=".OrderDetailsTooCook"
             android:exported="false" />
 
         <activity
-            android:name=".admin.OrderDetailsInKitchen"
+            android:name=".OrderDetailsInKitchen"
             android:exported="false" />
 
         <!--register service to allow to run in background-->

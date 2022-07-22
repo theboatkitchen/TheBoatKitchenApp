@@ -1,0 +1,10 @@
+package com.example.demoregister.Filter;
+
+public class gender {
+
+    //gender type
+    public static final String[] genderType ={
+            "Female",
+            "Male"
+    };
+}

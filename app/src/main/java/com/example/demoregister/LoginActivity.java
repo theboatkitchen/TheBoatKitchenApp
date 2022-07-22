@@ -15,10 +15,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.demoregister.admin.MainAdminActivity;
-import com.example.demoregister.admin.MainStaffActivity;
-import com.example.demoregister.admin.RegisterStaffActivity;
-import com.example.demoregister.customer.MainCustomerActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;

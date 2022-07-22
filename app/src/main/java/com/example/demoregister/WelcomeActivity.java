@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.demoregister.admin.RegisterStaffActivity;
-
 public class WelcomeActivity extends AppCompatActivity {
 
     @Override

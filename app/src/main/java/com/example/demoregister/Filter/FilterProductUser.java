@@ -1,18 +1,17 @@
-package com.example.demoregister;
+package com.example.demoregister.Filter;
 
 import android.widget.Filter;
 
-import com.example.demoregister.adapter.AdapterOrderAdmin;
-import com.example.demoregister.model.ModelOrderStaff;
+import com.example.demoregister.adapter.AdapterMenuCustomer;
+import com.example.demoregister.model.CreateMenuModel;
 
 import java.util.ArrayList;
 
-public class FilterOrderAdmin extends Filter {
+public class FilterProductUser extends Filter {
+    private AdapterMenuCustomer adapter;
+    private ArrayList<CreateMenuModel> filterList;
 
-    private AdapterOrderAdmin adapter;
-    private ArrayList<ModelOrderStaff> filterList;
-
-    public FilterOrderAdmin(AdapterOrderAdmin adapter, ArrayList<ModelOrderStaff> filterList) {
+    public FilterProductUser(AdapterMenuCustomer adapter, ArrayList<CreateMenuModel> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }
@@ -29,11 +28,12 @@ public class FilterOrderAdmin extends Filter {
             //change to upper case, to make case sensitive
             constraint = constraint.toString().toUpperCase();
             //store our filtered list
-            ArrayList<ModelOrderStaff> filteredModels = new ArrayList<>();
+            ArrayList<CreateMenuModel> filteredModels = new ArrayList<>();
 
             for (int i=0; i<filterList.size(); i++){
                 //check, search by menu name and category
-                if (filterList.get(i).getOrderStatus().toUpperCase().contains(constraint)){
+                if (filterList.get(i).getMenuName().toUpperCase().contains(constraint) ||
+                        filterList.get(i).getCategory().toUpperCase().contains(constraint)){
 
                     //add filtered data to list
                     filteredModels.add(filterList.get(i));
@@ -52,12 +52,10 @@ public class FilterOrderAdmin extends Filter {
     }
 
 
-
     //lepas perform validate data n dh dapat value search akan hantar value ke model class dekat notifydata set change.
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        //adapter.orderStaffList dapat dari public ArrayList<ModelOrderStaff> orderStaffList; dari AdapterOrderStaff.class
-        adapter.orderStaffList = (ArrayList<ModelOrderStaff>) results.values;
+        adapter.createMenuModelList = (ArrayList<CreateMenuModel>) results.values;
         //refresh adapter
         adapter.notifyDataSetChanged();
     }

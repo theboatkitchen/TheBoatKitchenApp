@@ -15,8 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.demoregister.Filter.Constants;
 import com.example.demoregister.Filter.gender;
-import com.example.demoregister.model.RegisterActivityJava;
+import com.example.demoregister.model.RegisterStaffModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -25,9 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegisterStaffActivity extends AppCompatActivity {
 
-    EditText custName,custGender,custAge,custPhone,custEmail,custPassword,conpassword,custIC;
+    EditText accountTypeTv,staffName,staffGender,staffAge,staffPhone,staffEmail,staffPassword,conpassword,staffIC;
     FirebaseAuth mAuth;
     FirebaseUser user;
 
@@ -39,20 +40,23 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_registration_staff);
 
-        custName = (EditText) findViewById(R.id.BKname);
-        custIC = (EditText)findViewById(R.id.BKIC);
-        custGender = (EditText) findViewById(R.id.BKgender);
-        custAge = (EditText)findViewById(R.id.BKage);
-        custPhone = (EditText)findViewById(R.id.BKphone);
-        custEmail = (EditText)findViewById(R.id.BKemail);
-        custPassword = (EditText)findViewById(R.id.BKpassword);
+        staffName = (EditText) findViewById(R.id.BKname);
+        staffIC = (EditText)findViewById(R.id.BKIC);
+        staffGender = (EditText) findViewById(R.id.BKgender);
+        staffAge = (EditText)findViewById(R.id.BKage);
+        staffPhone = (EditText)findViewById(R.id.BKphone);
+        staffEmail = (EditText)findViewById(R.id.BKemail);
+        staffPassword = (EditText)findViewById(R.id.BKpassword);
         conpassword = (EditText)findViewById(R.id.Conpassword);
         backBtn = findViewById(R.id.backBtn);
+        accountTypeTv = findViewById(R.id.accountType);
 
         backBtn.setOnClickListener((v) -> {onBackPressed();});
-        custGender.setOnClickListener(new View.OnClickListener() {
+
+        //pick gender
+        staffGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //pick gender type
@@ -61,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             private void genderDialog() {
                 //dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterStaffActivity.this);
                 builder.setTitle("Gender Type")
                         .setItems(gender.genderType, new DialogInterface.OnClickListener() {
                             @Override
@@ -69,29 +73,57 @@ public class RegistrationActivity extends AppCompatActivity {
                                 String pickcategory = gender.genderType[which];
 
                                 //set picked category
-                                custGender.setText(pickcategory);
+                                staffGender.setText(pickcategory);
                             }
                         }).show();
             }
         });
+
+        //pick accountType
+
+        accountTypeTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //pick gender type
+                AccountTypeDialog();
+            }
+
+            private void AccountTypeDialog() {
+                //dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterStaffActivity.this);
+                builder.setTitle("Account Type")
+                        .setItems(Constants.accountType, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                String pickcategory = Constants.accountType[which];
+
+                                //set picked category
+                                accountTypeTv.setText(pickcategory);
+                            }
+                        }).show();
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
+
+
     }
 
-    String custid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,conpasswordTxt,IcTxt, accountType, online, custImage;
+    String accTypeTxt,staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,ConpasswordTxt,IcTxt, accountType, online, staffImage;
     public void createUser(View v){
 
-
-        nameTxt = custName.getText().toString();
-        IcTxt = custIC.getText().toString();
-        genderTxt = custGender.getText().toString();
-        ageTxt = custAge.getText().toString();
-        phoneTxt = custPhone.getText().toString();
-        emailTxt = custEmail.getText().toString();
-        passwordTxt = custPassword.getText().toString();
-        conpasswordTxt = conpassword.getText().toString();
+       nameTxt = staffName.getText().toString();
+       IcTxt = staffIC.getText().toString();
+       genderTxt = staffGender.getText().toString();
+       ageTxt = staffAge.getText().toString();
+       phoneTxt = staffPhone.getText().toString();
+       emailTxt = staffEmail.getText().toString();
+       passwordTxt = staffPassword.getText().toString();
+       ConpasswordTxt = conpassword.getText().toString();
+       accountType = accountTypeTv.getText().toString();
 
         boolean pattern = phoneTxt.length()>=10&&phoneTxt.length()<=11;
 
@@ -111,6 +143,10 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Gender cannot be blank", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(TextUtils.isEmpty(accountType)){
+            Toast.makeText(getApplicationContext(),"Account Type cannot be blank", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(TextUtils.isEmpty(ageTxt)){
             Toast.makeText(getApplicationContext(),"Age cannot be blank", Toast.LENGTH_SHORT).show();
             return;
@@ -119,7 +155,6 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Phone Number cannot be blank", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if(pattern == false){
             Toast.makeText(getApplicationContext(),"Please insert correct phone Number", Toast.LENGTH_SHORT).show();
             return;
@@ -136,10 +171,11 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Password must be at least 6 character long...", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(!passwordTxt.equals(conpasswordTxt)){
+        if(!passwordTxt.equals(ConpasswordTxt)){
             Toast.makeText(getApplicationContext(),"Password doesn't match...", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         addAccount();
 
@@ -157,32 +193,30 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         //account created
                         saveFirebaseData();
-
                     }
 
                     private void saveFirebaseData() {
                         progressDialog.setMessage("Saving Account Info..");
 
-                        accountType = "customer";
-                        custImage = "null";
+                        //accountType = "Staff";
+                        staffImage = "null";
                         online = "false";
 
                         user = mAuth.getCurrentUser();
-                        custid = user.getUid();
+                        staffid = user.getUid();
 
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         //enter user data into database
-                        RegisterActivityJava custDetails = new RegisterActivityJava(custid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, custImage);
+                        RegisterStaffModel staffDetails = new RegisterStaffModel(staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, staffImage);
 
 
-
-                        ref.child(custid).setValue(custDetails)
+                        ref.child(staffid).setValue(staffDetails)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         //db updated
                                         progressDialog.dismiss();
-                                        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                                        startActivity(new Intent(RegisterStaffActivity.this, LoginActivity.class));
                                         finish();
                                     }
                                 })
@@ -191,28 +225,26 @@ public class RegistrationActivity extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         //failed updating db
                                         progressDialog.dismiss();
-                                        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+                                        startActivity(new Intent(RegisterStaffActivity.this, LoginActivity.class));
                                         finish();
                                     }
                                 });
                     }
+
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //Failed creating account
                         progressDialog.dismiss();
-                        Toast.makeText(RegistrationActivity.this,"" +e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterStaffActivity.this,"" +e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
 
 
-
-
-    public void login(View view) {
-        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
+    public void Login_Staff(View view) {
+        startActivity(new Intent(RegisterStaffActivity.this, LoginActivity.class));
     }
 }
