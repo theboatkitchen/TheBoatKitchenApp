@@ -65,7 +65,6 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
 
         //init views
         backBtn = findViewById(R.id.backBtn);
-        editBtn = findViewById(R.id.editBtn);
         orderIdTv = findViewById(R.id.orderIdTv);
         dateTv = findViewById(R.id.dateTv);
         orderStatusTv = findViewById(R.id.orderStatusTv);
@@ -76,15 +75,10 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
         custNameTv = findViewById(R.id.custNameTv);
 
         //accept/reject order
+        //only show completed order if orderstatus is in progress
         CompletedOrder = findViewById(R.id.Completed);
 
-        CompletedOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedOptions = "Completed";
-                editOrderStatus(selectedOptions);
-            }
-        });
+
 
         //get data from intent holder view items adapterorderstaff
         //get data from intent daripada MyFirebaseMessaging jugak at the same time
@@ -103,6 +97,14 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        CompletedOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedOptions = "Completed";
+                editOrderStatus(selectedOptions);
             }
         });
 
@@ -138,7 +140,7 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
                 });
     }
 
-    private void loadOrderedItems() {
+    private void loadOrderedItems() { //load guest of event
         //init list
         orderedItemList = new ArrayList<>();
 
@@ -147,7 +149,7 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        orderedItemList.clear(); //before loading itemes clear list
+                        orderedItemList.clear(); //before loading itemes clear list refresh list
                         for (DataSnapshot ds:snapshot.getChildren()){
                             ModelOrderedItem modelOrderedItem = ds.getValue(ModelOrderedItem.class);
                             //add to list
@@ -159,7 +161,7 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
                         //set adapter
                         itemsRv.setAdapter(adapterOrderedItem);
 
-                        //set items count
+                        //set items count daripada filter query db yg ambik items menu under orderId
                         totalItemsRv.setText(""+snapshot.getChildrenCount());
 
                     }
@@ -197,15 +199,19 @@ public class OrderDetailsInKitchen extends AppCompatActivity {
                         //change order status
                         if (orderStatus.equals("Pending")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.teal_700));
+                            CompletedOrder.setVisibility(View.INVISIBLE);
                         }
                         if (orderStatus.equals("In Progress")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.blue));
+                            CompletedOrder.setVisibility(View.VISIBLE);
                         }
                         else if (orderStatus.equals("Completed")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.green));
+                            CompletedOrder.setVisibility(View.INVISIBLE);
                         }
                         else if (orderStatus.equals("Cancelled")){
                             orderStatusTv.setTextColor(getResources().getColor(R.color.red));
+                            CompletedOrder.setVisibility(View.INVISIBLE);
                         }
 
                         //set data

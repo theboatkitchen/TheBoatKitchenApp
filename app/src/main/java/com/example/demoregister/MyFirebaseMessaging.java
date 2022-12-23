@@ -72,7 +72,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                                 if (firebaseAuth.getUid() != null && accountType.equals("Staff")) {
                                     //user is signed in as staff is same user to which notification is to be sent
 
-                                    showNotification(orderId,staffId,customerId,notificationTitle,notificationDescription, notificationType);
+                                    showNotificationStaff(orderId,staffId,customerId,notificationTitle,notificationDescription, notificationType);
                                     //Toast.makeText(MyFirebaseMessaging.this, ""+orderId+""+customerId,Toast.LENGTH_LONG).show();
                                 }
                                 //keluar notification new order dekat admin
@@ -107,7 +107,69 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         }
     }
 
-        private void showNotification(String orderId, String staffId, String customerId, String notificationTitle, String notificationDescription, String notificationType){
+    private void showNotificationStaff(String orderId, String staffId, String customerId, String notificationTitle, String notificationDescription, String notificationType) {
+
+        //notification
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //id for notification, random
+        int notificationID = new Random().nextInt(3000);
+
+        //check if android version is 0reo/0 or above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            setupNotificationChannel(notificationManager);
+        }
+
+
+        //handle notification click, start order activity
+        Intent intent = null;
+
+        //amibk kat comment utube
+
+        if (intent == null){
+            intent = new Intent();
+        }
+        if (notificationType.equals("NewOrder")){
+
+            //open OrderDetailsStaffActivity
+            intent = new Intent(this, OrderDetailsTooCook.class);
+            intent.putExtra("orderId",orderId);
+            intent.putExtra("orderBy",customerId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+        else if (notificationType.equals("OrderStatusChanged")){
+            //open OrderDetailsCustomerActivity
+
+            intent = new Intent(this, OrderDetailsCustomerActivity.class);
+            intent.putExtra("orderId",orderId);
+            //intent.putExtra("orderT0",staffId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Large icon
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
+
+        //sound of notification
+        Uri notificationSounUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setSmallIcon(R.drawable.logo)
+                .setLargeIcon(largeIcon)
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationDescription)
+                .setSound(notificationSounUri)
+                .setAutoCancel(true) //cancel/dismiss when clicked
+                .setContentIntent(pendingIntent); //add intent
+
+        //show notification
+        notificationManager.notify(notificationID,notificationBuilder.build());
+
+    }
+
+    private void showNotification(String orderId, String staffId, String customerId, String notificationTitle, String notificationDescription, String notificationType){
             //notification
             NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 

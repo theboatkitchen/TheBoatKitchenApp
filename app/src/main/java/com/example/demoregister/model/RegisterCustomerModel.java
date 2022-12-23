@@ -1,6 +1,6 @@
 package com.example.demoregister.model;
 
-public class RegisterActivityJava {
+public class RegisterCustomerModel {
 
     String userid;
     String custName;
@@ -14,10 +14,10 @@ public class RegisterActivityJava {
     String online;
     String custImage;
 
-    public RegisterActivityJava() {
+    public RegisterCustomerModel() {
     }
 
-    public RegisterActivityJava(String userid,String custName, String custGender, String custAge, String custPhone, String custEmail, String custPassword, String custIC, String accountType, String online, String custImage) {
+    public RegisterCustomerModel(String userid, String custName, String custGender, String custAge, String custPhone, String custEmail, String custPassword, String custIC, String accountType, String online, String custImage) {
         this.userid = userid;
         this.custName = custName;
         this.custGender = custGender;

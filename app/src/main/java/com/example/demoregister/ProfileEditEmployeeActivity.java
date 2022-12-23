@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-public class ProfileEditStaffActivity extends AppCompatActivity {
+public class ProfileEditEmployeeActivity extends AppCompatActivity {
 
     private ImageButton backBtn;
     private EditText nameTxt,emailTxt,phoneTxt,ageTxt;
@@ -168,14 +168,14 @@ public class ProfileEditStaffActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         //updated
                         progressDialog.dismiss();
-                        Toast.makeText(ProfileEditStaffActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileEditEmployeeActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //failed to update
-                        Toast.makeText(ProfileEditStaffActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileEditEmployeeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -251,14 +251,14 @@ public class ProfileEditStaffActivity extends AppCompatActivity {
                                     public void onSuccess(Void unused) {
                                         //updated
                                         progressDialog.dismiss();
-                                        Toast.makeText(ProfileEditStaffActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ProfileEditEmployeeActivity.this, "Profile Updated...", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         //failed to update
-                                        Toast.makeText(ProfileEditStaffActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ProfileEditEmployeeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -268,7 +268,7 @@ public class ProfileEditStaffActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileEditStaffActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileEditEmployeeActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

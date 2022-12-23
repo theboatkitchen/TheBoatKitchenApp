@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.demoregister.adapter.AdapterMenuStaff;
+import com.example.demoregister.adapter.AdapterMenuAdmin;
 import com.example.demoregister.adapter.AdapterOrderAdmin;
 import com.example.demoregister.Filter.Constants;
 import com.example.demoregister.model.CreateMenuModel;
@@ -61,7 +61,7 @@ public class MainAdminActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private ArrayList<CreateMenuModel> productList;
-    private AdapterMenuStaff adapterMenuStaff;
+    private AdapterMenuAdmin adapterMenuAdmin;
 
     //order
     private ArrayList<ModelOrderStaff> orderList;
@@ -141,7 +141,7 @@ public class MainAdminActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    adapterMenuStaff.getFilter().filter(s);
+                    adapterMenuAdmin.getFilter().filter(s);
 
                 }
                 catch (Exception e){
@@ -170,7 +170,7 @@ public class MainAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //open edit profile activity
-                startActivity(new Intent(MainAdminActivity.this, ProfileEditStaffActivity.class));
+                startActivity(new Intent(MainAdminActivity.this, ProfileEditEmployeeActivity.class));
             }
         });
 
@@ -178,7 +178,7 @@ public class MainAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //open edit profile activity
-                startActivity(new Intent(MainAdminActivity.this, ProfileEditStaffActivity.class));
+                startActivity(new Intent(MainAdminActivity.this, ProfileEditEmployeeActivity.class));
             }
         });
 
@@ -336,9 +336,9 @@ public class MainAdminActivity extends AppCompatActivity {
                             }
                         }
                         //setup adapter
-                        adapterMenuStaff = new AdapterMenuStaff(MainAdminActivity.this, productList);
+                        adapterMenuAdmin = new AdapterMenuAdmin(MainAdminActivity.this, productList);
                         //set adapter
-                        productsRV.setAdapter(adapterMenuStaff);
+                        productsRV.setAdapter(adapterMenuAdmin);
                     }
 
                     @Override
@@ -367,9 +367,9 @@ public class MainAdminActivity extends AppCompatActivity {
                             productList.add(createMenuModel);
                         }
                         //setup adapter untuk view menu list
-                        adapterMenuStaff = new AdapterMenuStaff(MainAdminActivity.this, productList);
+                        adapterMenuAdmin = new AdapterMenuAdmin(MainAdminActivity.this, productList);
                         //set adapter value menu list
-                        productsRV.setAdapter(adapterMenuStaff);
+                        productsRV.setAdapter(adapterMenuAdmin);
                     }
 
                     @Override

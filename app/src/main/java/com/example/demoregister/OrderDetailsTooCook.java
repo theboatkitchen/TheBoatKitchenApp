@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -57,6 +58,7 @@ public class OrderDetailsTooCook extends AppCompatActivity {
 
     String orderId,orderBy;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +137,8 @@ public class OrderDetailsTooCook extends AppCompatActivity {
                         //status updated
                         Toast.makeText(OrderDetailsTooCook.this, message,Toast.LENGTH_SHORT).show();
 
+                        //ada dua status reject dan acept order kalau accept order stastus pending n akan direct ke page kitchen
+                        //reject order status Cancelled akan pi ke page order details mcm admin punya order history untuk tgok why reject or wjy cust cancel
                         prepareNotificationMessage(orderId, message);
 
                         Intent intent = new Intent(OrderDetailsTooCook.this, OrderDetailsInKitchen.class);

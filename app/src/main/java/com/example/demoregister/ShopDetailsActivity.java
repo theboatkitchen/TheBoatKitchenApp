@@ -59,8 +59,6 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private ArrayList<ModelCartItem> cartItemList;
     private AdapterCartItem adapterCartItem;
 
-
-
     String Currentuser;
 
 
@@ -79,7 +77,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         viewcart = findViewById(R.id.cartButton);
 
         productsRL = findViewById(R.id.productsRL);
-        ordersRL = findViewById(R.id.ordersRL);
+        //ordersRL = findViewById(R.id.ordersRL);
         productsRV = findViewById(R.id.productsV);
 
         //notification of cart

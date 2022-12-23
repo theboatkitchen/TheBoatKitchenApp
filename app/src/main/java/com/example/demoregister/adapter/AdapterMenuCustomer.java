@@ -95,8 +95,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
             holder.productIconIv.setImageResource(R.drawable.ic_cart_pinkkelabu);
         }
 
-
-
         //customer tekan add to cart dekat page shope details
         holder.addToCartTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +123,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
     int quantity;
 
     String getcartid;
-
-
 
     private void addToCart(CreateMenuModel modelMenu) {
         final String price;
@@ -217,7 +213,6 @@ public class AdapterMenuCustomer extends  RecyclerView.Adapter<AdapterMenuCustom
                         });
 
     }
-
 
     private int itemId =1;
 

@@ -33,9 +33,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Drink.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".WelcomeActivity"
             android:exported="false" /> <!-- Login -->
         <activity
@@ -50,7 +47,7 @@
             android:name=".RegisterStaffActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileEditStaffActivity"
+            android:name=".ProfileEditEmployeeActivity"
             android:exported="false" />
         <activity
             android:name=".CreateMenu"
@@ -61,9 +58,6 @@
         <activity
             android:name=".EditMenuActivity"
             android:exported="false" /> <!-- user activity -->
-        <activity
-            android:name=".Drink.CartActivity"
-            android:exported="false" />
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />

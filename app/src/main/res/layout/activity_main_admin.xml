@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/filerteredProductsTv"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/row_menu_staff" />
+            tools:listitem="@layout/row_menu_admin" />
 
 
     </RelativeLayout>
@@ -206,7 +206,7 @@
             android:layout_marginEnd="5dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_dashboard_pink"/>
+            android:src="@drawable/ic_dashboard_pink" />
         <!--Show orders-->
         <!-- app:stackFromEnd="true" to load newest first-->
         <androidx.recyclerview.widget.RecyclerView

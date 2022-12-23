@@ -2,17 +2,17 @@ package com.example.demoregister.Filter;
 
 import android.widget.Filter;
 
-import com.example.demoregister.adapter.AdapterMenuStaff;
+import com.example.demoregister.adapter.AdapterMenuAdmin;
 import com.example.demoregister.model.CreateMenuModel;
 
 import java.util.ArrayList;
 
 public class Filterproduct extends Filter {
 
-    private AdapterMenuStaff adapter;
+    private AdapterMenuAdmin adapter;
     private ArrayList<CreateMenuModel> filterList;
 
-    public Filterproduct(AdapterMenuStaff adapter, ArrayList<CreateMenuModel> filterList) {
+    public Filterproduct(AdapterMenuAdmin adapter, ArrayList<CreateMenuModel> filterList) {
         this.adapter = adapter;
         this.filterList = filterList;
     }

@@ -69,7 +69,7 @@ public class CartPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_dialog_cart);
+        setContentView(R.layout.cart);
 
         FirebaseApp.initializeApp(this);
         firebaseAuth = FirebaseAuth.getInstance();

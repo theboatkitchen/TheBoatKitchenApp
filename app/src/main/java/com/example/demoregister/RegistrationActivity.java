@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.demoregister.Filter.gender;
-import com.example.demoregister.model.RegisterActivityJava;
+import com.example.demoregister.Filter.Gender;
+import com.example.demoregister.model.RegisterCustomerModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -52,6 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
 
         backBtn.setOnClickListener((v) -> {onBackPressed();});
+
         custGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,10 +64,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 //dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
                 builder.setTitle("Gender Type")
-                        .setItems(gender.genderType, new DialogInterface.OnClickListener() {
+                        .setItems(Gender.genderType, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                String pickcategory = gender.genderType[which];
+                                String pickcategory = Gender.genderType[which];
 
                                 //set picked category
                                 custGender.setText(pickcategory);
@@ -172,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         //enter user data into database
-                        RegisterActivityJava custDetails = new RegisterActivityJava(custid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, custImage);
+                        RegisterCustomerModel custDetails = new RegisterCustomerModel(custid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, custImage);
 
 
 
@@ -207,10 +208,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
 
     }
-
-
-
-
 
     public void login(View view) {
         startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));

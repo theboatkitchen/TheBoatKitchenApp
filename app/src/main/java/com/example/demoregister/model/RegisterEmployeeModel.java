@@ -1,6 +1,6 @@
 package com.example.demoregister.model;
 
-public class RegisterStaffModel {
+public class RegisterEmployeeModel {
     String userid;
     String staffName;
     String staffGender;
@@ -13,10 +13,10 @@ public class RegisterStaffModel {
     String online;
     String staffImage;
 
-    public RegisterStaffModel() {
+    public RegisterEmployeeModel() {
     }
 
-    public RegisterStaffModel(String userid, String staffName, String staffGender, String staffAge, String staffPhone, String staffEmail, String staffPassword, String staffIC, String accountType, String online, String staffImage) {
+    public RegisterEmployeeModel(String userid, String staffName, String staffGender, String staffAge, String staffPhone, String staffEmail, String staffPassword, String staffIC, String accountType, String online, String staffImage) {
         this.userid = userid;
         this.staffName = staffName;
         this.staffGender = staffGender;

@@ -59,9 +59,7 @@ public class AdapterOrderAdmin extends RecyclerView.Adapter<AdapterOrderAdmin.Ho
         String orderCost = modelOrderStaff.getOrderCost();
         final String orderBy = modelOrderStaff.getOrderBy();
         String orderTable = modelOrderStaff.getOrderTable();
-        
-        //load customer info
-        loadCustomerInfo(modelOrderStaff, holder);
+
 
         //set data
         holder.orderIdTv.setText("OrderID: "+orderId);
@@ -120,26 +118,6 @@ public class AdapterOrderAdmin extends RecyclerView.Adapter<AdapterOrderAdmin.Ho
         });
     }
 
-    private void loadCustomerInfo(ModelOrderStaff modelOrderStaff, HolderOrderShop holder) {
-        //to load email of the customer: modelOrderStaff.getOrderBy() contains userid that cust order
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(modelOrderStaff.getOrderBy())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String email = ""+snapshot.child("email").getValue();
-                        String custPhone = ""+snapshot.child("custPhone").getValue();
-                        String custName = ""+snapshot.child("custName").getValue();
-                        //holder.emailTv.setText(email);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(context.getApplicationContext(),""+ error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     @Override
     public int getItemCount() {

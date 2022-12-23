@@ -31,14 +31,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.HolderMenu>implements Filterable {
+public class AdapterMenuAdmin extends RecyclerView.Adapter<AdapterMenuAdmin.HolderMenu>implements Filterable {
 
     private Context context;
     public ArrayList<CreateMenuModel> createMenuModelList, filterList;
     private Filterproduct filter;
     private EditText search;
 
-    public AdapterMenuStaff(Context context, ArrayList<CreateMenuModel> createMenuModelList) {
+    public AdapterMenuAdmin(Context context, ArrayList<CreateMenuModel> createMenuModelList) {
         this.context = context;
         this.createMenuModelList = createMenuModelList;
         this.filterList = createMenuModelList;
@@ -48,7 +48,7 @@ public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.Hold
     @Override
     public HolderMenu onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout
-        View view = LayoutInflater.from(context).inflate(R.layout.row_menu_staff, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_menu_admin, parent, false);
 
         return new HolderMenu(view);
     }
@@ -75,7 +75,6 @@ public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.Hold
         holder.availabilityTv.setText(availability);
 
 
-
         try {
             Picasso.get().load(icon).placeholder(R.drawable.ic_cart_pinkkelabu).into(holder.productIconIv);
         }
@@ -83,10 +82,6 @@ public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.Hold
             holder.productIconIv.setImageResource(R.drawable.ic_cart_pinkkelabu);
         }
 
-        /*
-        Glide.with(context)
-                .load(icon)
-                .into(holder.productIconIv); */
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +213,6 @@ public class AdapterMenuStaff extends RecyclerView.Adapter<AdapterMenuStaff.Hold
                     }
                 });
     }
-
 
     @Override
     public int getItemCount() {

@@ -44,7 +44,7 @@
         android:layout_below="@+id/panel"
         android:layout_marginTop="-1dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/test_cart" />
+        tools:listitem="@layout/row_cart" />
 
 
     <RelativeLayout

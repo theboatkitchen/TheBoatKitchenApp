@@ -15,6 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.demoregister.Filter.Constants;
 import com.example.demoregister.adapter.AdapterOrderedItem;
 import com.example.demoregister.model.ModelOrderedItem;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,8 +32,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDetailsCustomerActivity extends AppCompatActivity {
 
@@ -46,6 +56,7 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
     private AdapterOrderedItem adapterOrderedItem;
 
     String orderStatus;
+    String selectedOptions;
 
     MainCustomerActivity mainCustomerActivity;
 
@@ -108,7 +119,7 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
                         String checkOrder = orderStatusTv.getText().toString();
 
                         if(checkOrder.equals("Pending")) {
-                            deleteOrder(); //id is the menu id
+                            cancelOrder(); //id is the menu id
                         }
                     }
                 })
@@ -122,16 +133,37 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void deleteOrder() {
+    //change the order status from pending to cancel order
+    private void cancelOrder() {
+
+        //setup data to put in firebase db
+        selectedOptions="Cancelled";
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("orderStatus",""+selectedOptions);
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Order");
-        ref.child(orderId).removeValue()
+        ref.child(orderId)
+                .updateChildren(hashMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        //order deleted
+                        //order status is now cancel
+                        loadOrderDetails();
+                        loadOrderedItems();
+
+                        String message = "Order is now "+selectedOptions;
+                        //status updated
+                        Toast.makeText(OrderDetailsCustomerActivity.this, message,Toast.LENGTH_SHORT).show();
+
+
+                        //notify the staff of cancelling order
+
+                        prepareNotificationMessage(orderId, message);
+
+                        startActivity(new Intent(OrderDetailsCustomerActivity.this, MainCustomerActivity.class));
+
                         //open customer main page
-                        startActivity(new Intent(OrderDetailsCustomerActivity.this, ShopDetailsActivity.class));
-                        //Toast.makeText(OrderDetailsCustomerActivity.this, "Order deleted.....", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(OrderDetailsCustomerActivity.this, ShopDetailsActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -231,6 +263,76 @@ public class OrderDetailsCustomerActivity extends AppCompatActivity {
                         Toast.makeText(OrderDetailsCustomerActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void prepareNotificationMessage(String orderId, String message){
+        //when cust changes order status InProgress/Cancelled/Completed, send notification to staff
+
+        //prepare data for notifications
+        String NOTIFICATION_TOPIC ="/topics/"+ Constants.FCM_TOPIC; //must be same as subscribed by user
+        String NOTIFICATION_TITLE = "The Status of Order "+orderId;
+        String NOTIFICATION_MESSAGE = ""+message;
+        String NOTIFICATION_TYPE = "OrderStatusChanged";
+
+        //prepare json (what to send and where to send)
+        JSONObject notificationJo = new JSONObject();
+        JSONObject notificationBodyJo = new JSONObject();
+        try{
+            //what to send
+            notificationBodyJo.put("notificationType",NOTIFICATION_TYPE);
+            //cust yg skrng ni login so current user ambik cust id
+            notificationBodyJo.put("customerId",firebaseAuth.getUid());
+            notificationBodyJo.put("orderId",orderId);
+            notificationBodyJo.put("notificationTitle", NOTIFICATION_TITLE);
+            notificationBodyJo.put("notificationMessage", NOTIFICATION_MESSAGE);
+
+            //WHERE TO SEND
+            notificationJo.put("to", NOTIFICATION_TOPIC); // TO ALL WHO SUBSCRIBES TO THIS TOPIC
+            notificationJo.put("data",notificationBodyJo);
+        }
+        catch (Exception e){
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        sendFcmNotification(notificationJo, orderId);
+    }
+
+    private void sendFcmNotification(JSONObject notificationJo, String orderId) {
+        //send volley request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest("https://fcm.googleapis.com/fcm/send", notificationJo, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //after sending fcm start order details activity
+                //after placing order open order details page
+                Intent intent = new Intent(OrderDetailsCustomerActivity.this, OrderDetailsCustomerActivity.class);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //if failed sending fcm still start order details activity
+
+                Intent intent = new Intent(OrderDetailsCustomerActivity.this, LoginActivity.class);
+                intent.putExtra("orderId", orderId);
+                startActivity(intent);
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                //put required headers
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "key="+ Constants.FCM_KEY);
+
+                return headers;
+            }
+        };
+
+        //enque the volley request
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
 

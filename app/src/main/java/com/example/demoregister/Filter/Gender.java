@@ -1,6 +1,6 @@
 package com.example.demoregister.Filter;
 
-public class gender {
+public class Gender {
 
     //gender type
     public static final String[] genderType ={

@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.demoregister.adapter.AdapterMenuStaff;
+import com.example.demoregister.adapter.AdapterMenuAdmin;
 import com.example.demoregister.adapter.AdapterOrderInKitchen;
 import com.example.demoregister.adapter.AdapterOrderToCook;
 import com.example.demoregister.Filter.Constants;
@@ -58,7 +58,7 @@ public class MainStaffActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private ArrayList<CreateMenuModel> productList;
-    private AdapterMenuStaff adapterMenuStaff;
+    private AdapterMenuAdmin adapterMenuAdmin;
 
     //orderToCook
     private AdapterOrderToCook adapterOrderToCook;
@@ -127,7 +127,7 @@ public class MainStaffActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //open edit profile activity
-                startActivity(new Intent(MainStaffActivity.this, ProfileEditStaffActivity.class));
+                startActivity(new Intent(MainStaffActivity.this, ProfileEditEmployeeActivity.class));
             }
         });
 
@@ -135,7 +135,7 @@ public class MainStaffActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //open edit profile activity
-                startActivity(new Intent(MainStaffActivity.this, ProfileEditStaffActivity.class));
+                startActivity(new Intent(MainStaffActivity.this, ProfileEditEmployeeActivity.class));
             }
         });
 
@@ -208,7 +208,7 @@ public class MainStaffActivity extends AppCompatActivity {
                         }
                         else{
                             //kalau tadak order yang berstatus In Progress display biasa je
-                            tabInKitchenTv.setText("In Kitchen [ 0 ]");
+                            tabInKitchenTv.setText("In Kitchen [ "+countStatus+" ]");
                         }
 
                     }

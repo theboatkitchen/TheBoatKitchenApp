@@ -19,11 +19,4 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
-    public void registerCust(View view) {
-        startActivity(new Intent(WelcomeActivity.this,RegistrationActivity.class));
-    }
-
-    public void registerStatff(View view) {
-        startActivity(new Intent(WelcomeActivity.this,RegisterStaffActivity.class));
-    }
 }

@@ -243,35 +243,7 @@
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintWidth_percent=".8" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/already_registered"
-        android:textAlignment="center"
-        android:textColor="#FBFBFB"
-        android:textStyle="bold"
-        app:flow_firstHorizontalBias=".4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
 
-    <TextView
-        android:onClick="Login_Staff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_in"
-        android:textAlignment="center"
-        android:textColor="@color/purple_500"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

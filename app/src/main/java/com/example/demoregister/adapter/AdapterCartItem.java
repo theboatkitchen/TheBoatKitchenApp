@@ -42,7 +42,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
     public HolderCartItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate layout row_cart_item.xml
         //tukar jadi layout test_cart
-        View view = LayoutInflater.from(context).inflate(R.layout.test_cart,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.row_cart,parent,false);
         //View viewCountPage = LayoutInflater.from(countpage).inflate(R.layout.row_menu_customer,parent,false);
         return new HolderCartItem(view);
         //return new HolderCartItem(viewCountPage);
@@ -83,43 +83,6 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
         catch (Exception e){
             holder.icon.setImageResource(R.drawable.ic_cart_pinkkelabu);
         }
-
-        /*
-        holder.RemoveTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //dia akan create table baru kalau tak wujud lagi data, but in that case mesti kena wujud
-                EasyDB easyDB = EasyDB.init(context, "ITEMS_DB")
-                        .setTableName("ITEMS_TABLE")
-                        .addColumn(new Column("Item_Id", new String[]{"text", "unique"}))
-                        .addColumn(new Column("Item_PID", new String[]{"text", "not null"}))
-                        .addColumn(new Column("Item_name", new String[]{"text", "not null"}))
-                        .addColumn(new Column("Item_Price_Each", new String[]{"text", "not null"}))
-                        .addColumn(new Column("Item_Price", new String[]{"text", "not null"}))
-                        .addColumn(new Column("Item_Quantity", new String[]{"text", "not null"}))
-                        .doneTableColumn();
-
-                easyDB.deleteRow(1,id);//column no 1 is item_id
-                Toast.makeText(context,"Removed from cart....", Toast.LENGTH_SHORT).show();
-
-                //refresh list
-                int actualPosition = holder.getAdapterPosition();
-                cartItems.remove(actualPosition);
-                notifyItemChanged(actualPosition);
-                notifyDataSetChanged();
-
-                double tx = Double.parseDouble((((ShopDetailsActivity)context).allTotalPriceTv.getText().toString().replace("RM","")));
-               // double totalPrice = tx - Double.parseDouble(cost.replace("RM", ""));
-                //double sTotalPrice = Double.parseDouble(String.format("%.2f", totalPrice));
-                ((ShopDetailsActivity)context).allTotalprice=0.00;
-               // ((ShopDetailsActivity)context).sTotalTv.setText("RM"+String.format("%.2f", sTotalPrice));
-                //((ShopDetailsActivity)context).allTotalPriceTv.setText("RM"+String.format("%.2f",Double.parseDouble(String.format("%.2f", totalPrice))));
-                //double tax = Double.parseDouble((((ShopDetailsActivity)context).tax.replace("RM","")));
-
-            }
-        });
-
-         */
 
 
         holder.btnPlus.setOnClickListener(new View.OnClickListener() {

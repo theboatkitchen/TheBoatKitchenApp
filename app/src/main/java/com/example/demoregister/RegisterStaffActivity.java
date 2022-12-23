@@ -16,8 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.demoregister.Filter.Constants;
-import com.example.demoregister.Filter.gender;
-import com.example.demoregister.model.RegisterStaffModel;
+import com.example.demoregister.Filter.Gender;
+import com.example.demoregister.model.RegisterEmployeeModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -67,10 +67,10 @@ public class RegisterStaffActivity extends AppCompatActivity {
                 //dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterStaffActivity.this);
                 builder.setTitle("Gender Type")
-                        .setItems(gender.genderType, new DialogInterface.OnClickListener() {
+                        .setItems(Gender.genderType, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
-                                String pickcategory = gender.genderType[which];
+                                String pickcategory = Gender.genderType[which];
 
                                 //set picked category
                                 staffGender.setText(pickcategory);
@@ -207,7 +207,7 @@ public class RegisterStaffActivity extends AppCompatActivity {
 
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         //enter user data into database
-                        RegisterStaffModel staffDetails = new RegisterStaffModel(staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, staffImage);
+                        RegisterEmployeeModel staffDetails = new RegisterEmployeeModel(staffid,nameTxt,genderTxt,ageTxt,phoneTxt,emailTxt,passwordTxt,IcTxt, accountType, online, staffImage);
 
 
                         ref.child(staffid).setValue(staffDetails)
@@ -216,7 +216,7 @@ public class RegisterStaffActivity extends AppCompatActivity {
                                     public void onSuccess(Void unused) {
                                         //db updated
                                         progressDialog.dismiss();
-                                        startActivity(new Intent(RegisterStaffActivity.this, LoginActivity.class));
+                                        startActivity(new Intent(RegisterStaffActivity.this, MainAdminActivity.class));
                                         finish();
                                     }
                                 })
